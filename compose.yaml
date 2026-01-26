@@ -14,18 +14,6 @@ services:
     ports:
       - 8000:8000
 
-
-  redis:
-    image: redis:latest
-    restart: unless-stopped
-    environment:
-      - TZ=Asia/Shanghai
-    ports:
-      - 6379:6379
-    volumes:
-      - redis-data:/data
-    command: redis-server --appendonly yes
-
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
 # start the database before your application. The `db-data` volume persists the
