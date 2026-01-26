@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import List, Optional
 from sqlmodel import Boolean, DateTime, Relationship, SQLModel, Field, Column, SmallInteger, String, UUID, ForeignKey
 import uuid
-from app.system.role.models import RoleMenuLink
+from app.admin.role.models import RoleMenuLink
 
 
 class Menu(SQLModel, table=True):

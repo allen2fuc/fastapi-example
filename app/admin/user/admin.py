@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 class UserAdmin(CustomAdmin, model=User):
     category = "系统管理"
-    category_icon = "fa-solid fa-user-shield"
+    category_icon = "fa-solid fa-gear"
     name_plural = "用户管理"
     name = "用户管理"
     label = "用户管理"

@@ -7,9 +7,6 @@ from sqlalchemy.orm import sessionmaker
 from sqlmodel import SQLModel
 from sqlmodel.ext.asyncio.session import AsyncSession
 from app.core.config import settings
-from app.system.menu.data import init_menu_data
-from app.system.role.data import init_role_data
-from app.system.user.data import init_user_data
 
 engine = create_async_engine(settings.DB_URL, echo=True, connect_args={"check_same_thread": False})
 
@@ -18,10 +15,6 @@ SessionLocal = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 async def init_db():
     async with engine.begin() as conn:
         await conn.run_sync(SQLModel.metadata.create_all)
-    async with get_session_context() as session:
-        await init_menu_data(session)
-        await init_role_data(session)
-        await init_user_data(session)
 
 async def get_session() -> AsyncGenerator[AsyncSession, None]:
     async with SessionLocal() as session:

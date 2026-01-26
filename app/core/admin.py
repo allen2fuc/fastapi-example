@@ -11,9 +11,11 @@ from sqladmin.authentication import AuthenticationBackend
 
 from app.core.database import get_session_context
 from app.core.security import verify_password
-from app.system.user import user_crud
+from app.admin.user import user_crud
 
 logger = logging.getLogger(__name__)
+
+ADMIN_SECRET_KEY = "74d82f44b1218a992a1dc5fbba06bdec987203e876c2b8552da7d7c5533a32e8"
 
 # Context variable to store current request
 _current_request: ContextVar[Request | None] = ContextVar("current_request", default=None)
@@ -170,23 +172,21 @@ class CustomAdmin(ModelView):
         raise NotImplementedError("get_permission_prefix method must be implemented")
 
 def register_admin(app: FastAPI):
-    from sqladmin import Admin
 
     from app.core.database import SessionLocal, engine
-    from app.system.menu.admin import MenuAdmin
-    from app.system.role.admin import RoleAdmin
-    from app.system.user.admin import UserAdmin
+    from app.admin.menu.admin import MenuAdmin
+    from app.admin.role.admin import RoleAdmin
+    from app.admin.user.admin import UserAdmin
 
     # hex
-    authentication_backend = AdminAuth(
-        secret_key="74d82f44b1218a992a1dc5fbba06bdec987203e876c2b8552da7d7c5533a32e8")
+    authentication_backend = AdminAuth(secret_key=ADMIN_SECRET_KEY)
     admin = CustomAdminApp(
         app,
         engine=engine,
         session_maker=SessionLocal,
         title="后台管理",
-        logo_url="https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png",
-        favicon_url="https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png",
+        logo_url="/static/logo.png",
+        favicon_url="/static/favicon.ico",
         authentication_backend=authentication_backend
     )
 

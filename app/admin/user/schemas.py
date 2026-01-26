@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import Annotated, Optional
 import uuid
 from pydantic import BaseModel, Field, ValidationInfo, field_validator
-from app.system.role.schemas import RoleRead
+from app.admin.role.schemas import RoleRead
 
 class UserBase(BaseModel):
     username: Annotated[str, Field(min_length=3, max_length=50, description="用户名", examples=["admin"])]

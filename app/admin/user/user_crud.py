@@ -7,7 +7,6 @@ import uuid
 from sqlmodel import func, select
 
 from app.core.schemas import Pagination, PaginationQuery
-from app.core.security import hash_password
 from .models import User
 from sqlmodel.ext.asyncio.session import AsyncSession
 

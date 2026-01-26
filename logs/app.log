@@ -1,0 +1,1391 @@
+2026-01-26 16:39:10 - app.app:29 - INFO - Starting the application
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role_menu")
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role")
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_menu")
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_user")
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:2716 - INFO - COMMIT
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.name IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00036s] ('系统管理', '用户管理', '添加用户', '编辑用户', '删除用户', '导出用户', '用户详情', '角色管理', '添加角色', '编辑角色', '删除角色', '导出角色', '角色详情', '菜单管理', '添加菜单', '编辑菜单', '删除菜单', '导出菜单', '菜单详情')
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.status = 1
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00087s] ()
+2026-01-26 16:39:10 - app.admin.role.data:19 - INFO - menus size: 19
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id, sys_role.name, sys_role.description 
+FROM sys_role 
+WHERE sys_role.name IN (?, ?)
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00036s] ('admin', 'visitor')
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?, ?)
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00071s] ('a9a70d8c62204c188ba9660635d70977', '1f27002d006342888fe61668ac0b7178')
+2026-01-26 16:39:10 - app.admin.role.data:41 - INFO - existing_role_names size: 2
+2026-01-26 16:39:10 - app.admin.role.data:44 - INFO - non_existing_roles size: 0
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00024s] ('admin',)
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00049s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00045s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.01055s ago] ('visitor',)
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.008632s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.00617s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:39:10 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:39:10 - uvicorn.error:62 - INFO - Application startup complete.
+2026-01-26 16:39:55 - uvicorn.error:264 - INFO - Shutting down
+2026-01-26 16:39:55 - uvicorn.error:67 - INFO - Waiting for application shutdown.
+2026-01-26 16:39:55 - app.app:36 - INFO - Stopping the application
+2026-01-26 16:39:55 - uvicorn.error:76 - INFO - Application shutdown complete.
+2026-01-26 16:39:55 - uvicorn.error:94 - INFO - Finished server process [25955]
+2026-01-26 16:39:57 - app.app:29 - INFO - Starting the application
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role_menu")
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role")
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_menu")
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_user")
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:2716 - INFO - COMMIT
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.name IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00034s] ('系统管理', '用户管理', '添加用户', '编辑用户', '删除用户', '导出用户', '用户详情', '角色管理', '添加角色', '编辑角色', '删除角色', '导出角色', '角色详情', '菜单管理', '添加菜单', '编辑菜单', '删除菜单', '导出菜单', '菜单详情')
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.status = 1
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00027s] ()
+2026-01-26 16:39:57 - app.admin.role.data:19 - INFO - menus size: 19
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id, sys_role.name, sys_role.description 
+FROM sys_role 
+WHERE sys_role.name IN (?, ?)
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00036s] ('admin', 'visitor')
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?, ?)
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00043s] ('a9a70d8c62204c188ba9660635d70977', '1f27002d006342888fe61668ac0b7178')
+2026-01-26 16:39:57 - app.admin.role.data:41 - INFO - existing_role_names size: 2
+2026-01-26 16:39:57 - app.admin.role.data:44 - INFO - non_existing_roles size: 0
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00024s] ('admin',)
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00029s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00055s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.009319s ago] ('visitor',)
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.008208s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.006401s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:39:57 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:39:57 - uvicorn.error:62 - INFO - Application startup complete.
+2026-01-26 16:40:13 - uvicorn.error:264 - INFO - Shutting down
+2026-01-26 16:40:13 - uvicorn.error:67 - INFO - Waiting for application shutdown.
+2026-01-26 16:40:13 - app.app:36 - INFO - Stopping the application
+2026-01-26 16:40:13 - uvicorn.error:76 - INFO - Application shutdown complete.
+2026-01-26 16:40:13 - uvicorn.error:94 - INFO - Finished server process [25998]
+2026-01-26 16:40:15 - app.app:29 - INFO - Starting the application
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role_menu")
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role")
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_menu")
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_user")
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:2716 - INFO - COMMIT
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.name IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00047s] ('系统管理', '用户管理', '添加用户', '编辑用户', '删除用户', '导出用户', '用户详情', '角色管理', '添加角色', '编辑角色', '删除角色', '导出角色', '角色详情', '菜单管理', '添加菜单', '编辑菜单', '删除菜单', '导出菜单', '菜单详情')
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.status = 1
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00036s] ()
+2026-01-26 16:40:15 - app.admin.role.data:19 - INFO - menus size: 19
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id, sys_role.name, sys_role.description 
+FROM sys_role 
+WHERE sys_role.name IN (?, ?)
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00057s] ('admin', 'visitor')
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?, ?)
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00055s] ('a9a70d8c62204c188ba9660635d70977', '1f27002d006342888fe61668ac0b7178')
+2026-01-26 16:40:15 - app.admin.role.data:41 - INFO - existing_role_names size: 2
+2026-01-26 16:40:15 - app.admin.role.data:44 - INFO - non_existing_roles size: 0
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00049s] ('admin',)
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.01169s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00058s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.04621s ago] ('visitor',)
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.03785s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.02257s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:40:15 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:40:15 - uvicorn.error:62 - INFO - Application startup complete.
+2026-01-26 16:40:15 - uvicorn.error:134 - ERROR - Traceback (most recent call last):
+  File "/Users/fucheng/.local/share/uv/python/cpython-3.13.5-macos-x86_64-none/lib/python3.13/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "/Users/fucheng/.local/share/uv/python/cpython-3.13.5-macos-x86_64-none/lib/python3.13/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "uvloop/loop.pyx", line 1512, in uvloop.loop.Loop.run_until_complete
+  File "uvloop/loop.pyx", line 1505, in uvloop.loop.Loop.run_until_complete
+  File "uvloop/loop.pyx", line 1379, in uvloop.loop.Loop.run_forever
+  File "uvloop/loop.pyx", line 557, in uvloop.loop.Loop._run
+  File "uvloop/loop.pyx", line 476, in uvloop.loop.Loop._on_idle
+  File "uvloop/cbhandles.pyx", line 83, in uvloop.loop.Handle._run
+  File "uvloop/cbhandles.pyx", line 63, in uvloop.loop.Handle._run
+  File "/Users/fucheng/Code/fastapi-example/.venv/lib/python3.13/site-packages/uvicorn/server.py", line 70, in serve
+    with self.capture_signals():
+         ~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/fucheng/.local/share/uv/python/cpython-3.13.5-macos-x86_64-none/lib/python3.13/contextlib.py", line 148, in __exit__
+    next(self.gen)
+    ~~~~^^^^^^^^^^
+  File "/Users/fucheng/Code/fastapi-example/.venv/lib/python3.13/site-packages/uvicorn/server.py", line 331, in capture_signals
+    signal.raise_signal(captured_signal)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/fucheng/Code/fastapi-example/.venv/lib/python3.13/site-packages/rich_toolkit/utils/colors.py", line 159, in <lambda>
+    signal.SIGTERM, lambda signum, frame: (restore_terminal(), sys.exit(0))
+                                                               ~~~~~~~~^^^
+SystemExit: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/fucheng/Code/fastapi-example/.venv/lib/python3.13/site-packages/starlette/routing.py", line 701, in lifespan
+    await receive()
+  File "/Users/fucheng/Code/fastapi-example/.venv/lib/python3.13/site-packages/uvicorn/lifespan/on.py", line 137, in receive
+    return await self.receive_queue.get()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/fucheng/.local/share/uv/python/cpython-3.13.5-macos-x86_64-none/lib/python3.13/asyncio/queues.py", line 186, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+2026-01-26 16:40:18 - app.app:29 - INFO - Starting the application
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role_menu")
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role")
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_menu")
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_user")
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:2716 - INFO - COMMIT
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.name IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00044s] ('系统管理', '用户管理', '添加用户', '编辑用户', '删除用户', '导出用户', '用户详情', '角色管理', '添加角色', '编辑角色', '删除角色', '导出角色', '角色详情', '菜单管理', '添加菜单', '编辑菜单', '删除菜单', '导出菜单', '菜单详情')
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.status = 1
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00028s] ()
+2026-01-26 16:40:18 - app.admin.role.data:19 - INFO - menus size: 19
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id, sys_role.name, sys_role.description 
+FROM sys_role 
+WHERE sys_role.name IN (?, ?)
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00029s] ('admin', 'visitor')
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?, ?)
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00069s] ('a9a70d8c62204c188ba9660635d70977', '1f27002d006342888fe61668ac0b7178')
+2026-01-26 16:40:18 - app.admin.role.data:41 - INFO - existing_role_names size: 2
+2026-01-26 16:40:18 - app.admin.role.data:44 - INFO - non_existing_roles size: 0
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00029s] ('admin',)
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00082s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00081s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.03311s ago] ('visitor',)
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.03194s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.02859s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:40:18 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:40:18 - uvicorn.error:62 - INFO - Application startup complete.
+2026-01-26 16:40:19 - uvicorn.error:264 - INFO - Shutting down
+2026-01-26 16:40:19 - uvicorn.error:67 - INFO - Waiting for application shutdown.
+2026-01-26 16:40:19 - app.app:36 - INFO - Stopping the application
+2026-01-26 16:40:19 - uvicorn.error:76 - INFO - Application shutdown complete.
+2026-01-26 16:40:19 - uvicorn.error:94 - INFO - Finished server process [26035]
+2026-01-26 16:40:21 - app.app:29 - INFO - Starting the application
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role_menu")
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role")
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_menu")
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_user")
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:2716 - INFO - COMMIT
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.name IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00064s] ('系统管理', '用户管理', '添加用户', '编辑用户', '删除用户', '导出用户', '用户详情', '角色管理', '添加角色', '编辑角色', '删除角色', '导出角色', '角色详情', '菜单管理', '添加菜单', '编辑菜单', '删除菜单', '导出菜单', '菜单详情')
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.status = 1
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00036s] ()
+2026-01-26 16:40:21 - app.admin.role.data:19 - INFO - menus size: 19
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id, sys_role.name, sys_role.description 
+FROM sys_role 
+WHERE sys_role.name IN (?, ?)
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00036s] ('admin', 'visitor')
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?, ?)
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.01391s] ('a9a70d8c62204c188ba9660635d70977', '1f27002d006342888fe61668ac0b7178')
+2026-01-26 16:40:21 - app.admin.role.data:41 - INFO - existing_role_names size: 2
+2026-01-26 16:40:21 - app.admin.role.data:44 - INFO - non_existing_roles size: 0
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00024s] ('admin',)
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00034s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00107s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.0131s ago] ('visitor',)
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.01105s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.008589s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:40:21 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:40:21 - uvicorn.error:62 - INFO - Application startup complete.
+2026-01-26 16:40:29 - uvicorn.error:264 - INFO - Shutting down
+2026-01-26 16:40:29 - uvicorn.error:67 - INFO - Waiting for application shutdown.
+2026-01-26 16:40:29 - app.app:36 - INFO - Stopping the application
+2026-01-26 16:40:29 - uvicorn.error:76 - INFO - Application shutdown complete.
+2026-01-26 16:40:29 - uvicorn.error:94 - INFO - Finished server process [26044]
+2026-01-26 16:40:30 - app.app:29 - INFO - Starting the application
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role_menu")
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role")
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_menu")
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_user")
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:2716 - INFO - COMMIT
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.name IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00062s] ('系统管理', '用户管理', '添加用户', '编辑用户', '删除用户', '导出用户', '用户详情', '角色管理', '添加角色', '编辑角色', '删除角色', '导出角色', '角色详情', '菜单管理', '添加菜单', '编辑菜单', '删除菜单', '导出菜单', '菜单详情')
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.status = 1
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00040s] ()
+2026-01-26 16:40:30 - app.admin.role.data:19 - INFO - menus size: 19
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id, sys_role.name, sys_role.description 
+FROM sys_role 
+WHERE sys_role.name IN (?, ?)
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00034s] ('admin', 'visitor')
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?, ?)
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00058s] ('a9a70d8c62204c188ba9660635d70977', '1f27002d006342888fe61668ac0b7178')
+2026-01-26 16:40:30 - app.admin.role.data:41 - INFO - existing_role_names size: 2
+2026-01-26 16:40:30 - app.admin.role.data:44 - INFO - non_existing_roles size: 0
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00031s] ('admin',)
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00045s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00059s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.01231s ago] ('visitor',)
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.0115s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.008771s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:40:30 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:40:30 - uvicorn.error:62 - INFO - Application startup complete.
+2026-01-26 16:40:31 - uvicorn.error:264 - INFO - Shutting down
+2026-01-26 16:40:31 - uvicorn.error:67 - INFO - Waiting for application shutdown.
+2026-01-26 16:40:31 - app.app:36 - INFO - Stopping the application
+2026-01-26 16:40:31 - uvicorn.error:76 - INFO - Application shutdown complete.
+2026-01-26 16:40:31 - uvicorn.error:94 - INFO - Finished server process [26056]
+2026-01-26 16:40:33 - app.app:29 - INFO - Starting the application
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role_menu")
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role")
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_menu")
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_user")
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:2716 - INFO - COMMIT
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.name IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00033s] ('系统管理', '用户管理', '添加用户', '编辑用户', '删除用户', '导出用户', '用户详情', '角色管理', '添加角色', '编辑角色', '删除角色', '导出角色', '角色详情', '菜单管理', '添加菜单', '编辑菜单', '删除菜单', '导出菜单', '菜单详情')
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.status = 1
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00023s] ()
+2026-01-26 16:40:33 - app.admin.role.data:19 - INFO - menus size: 19
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id, sys_role.name, sys_role.description 
+FROM sys_role 
+WHERE sys_role.name IN (?, ?)
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.02010s] ('admin', 'visitor')
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?, ?)
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00046s] ('a9a70d8c62204c188ba9660635d70977', '1f27002d006342888fe61668ac0b7178')
+2026-01-26 16:40:33 - app.admin.role.data:41 - INFO - existing_role_names size: 2
+2026-01-26 16:40:33 - app.admin.role.data:44 - INFO - non_existing_roles size: 0
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00024s] ('admin',)
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00030s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00040s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.009501s ago] ('visitor',)
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.008835s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.006878s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:40:33 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:40:33 - uvicorn.error:62 - INFO - Application startup complete.
+2026-01-26 16:42:17 - uvicorn.error:264 - INFO - Shutting down
+2026-01-26 16:42:17 - uvicorn.error:299 - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2026-01-26 16:43:03 - uvicorn.error:306 - INFO - Waiting for background tasks to complete. (CTRL+C to force quit)
+2026-01-26 16:43:04 - uvicorn.error:67 - INFO - Waiting for application shutdown.
+2026-01-26 16:43:04 - app.app:36 - INFO - Stopping the application
+2026-01-26 16:43:04 - uvicorn.error:76 - INFO - Application shutdown complete.
+2026-01-26 16:43:04 - uvicorn.error:94 - INFO - Finished server process [26065]
+2026-01-26 16:43:07 - app.app:29 - INFO - Starting the application
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role_menu")
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role")
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_menu")
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_user")
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:2716 - INFO - COMMIT
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.name IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00052s] ('系统管理', '用户管理', '添加用户', '编辑用户', '删除用户', '导出用户', '用户详情', '角色管理', '添加角色', '编辑角色', '删除角色', '导出角色', '角色详情', '菜单管理', '添加菜单', '编辑菜单', '删除菜单', '导出菜单', '菜单详情')
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.status = 1
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00036s] ()
+2026-01-26 16:43:07 - app.admin.role.data:19 - INFO - menus size: 19
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id, sys_role.name, sys_role.description 
+FROM sys_role 
+WHERE sys_role.name IN (?, ?)
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00037s] ('admin', 'visitor')
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?, ?)
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00055s] ('a9a70d8c62204c188ba9660635d70977', '1f27002d006342888fe61668ac0b7178')
+2026-01-26 16:43:07 - app.admin.role.data:41 - INFO - existing_role_names size: 2
+2026-01-26 16:43:07 - app.admin.role.data:44 - INFO - non_existing_roles size: 0
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00032s] ('admin',)
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00029s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00052s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.01018s ago] ('visitor',)
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.01001s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.008461s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:43:07 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:43:07 - uvicorn.error:62 - INFO - Application startup complete.
+2026-01-26 16:43:14 - app.core.security:67 - INFO - credentials: admin
+2026-01-26 16:43:14 - app.core.security:71 - INFO - current_username: admin
+2026-01-26 16:43:14 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:43:14 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:43:14 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 7.202s ago] ('admin',)
+2026-01-26 16:43:14 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:43:14 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 7.201s ago] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:43:14 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:43:14 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 7.2s ago] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:43:14 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:43:22 - app.core.admin:59 - INFO - authenticate username: admin
+2026-01-26 16:43:22 - app.core.admin:126 - INFO - is_visible request: <starlette.requests.Request object at 0x10e668450>
+2026-01-26 16:43:22 - app.core.admin:115 - INFO - check_permission is_admin: True admin:user:list ['admin:user:create', 'admin:menu:details', 'admin:role:export', 'admin:user:delete', 'admin:menu:export', 'admin:role:details', 'admin:user:list', 'admin:role:list', 'admin:user:details', 'admin:menu:delete', 'admin:user:export', 'admin:menu:list', 'admin:role:create', 'admin:user:edit', 'admin:role:delete', 'admin:menu:edit', 'admin:role:edit', 'admin:menu:create']
+2026-01-26 16:43:22 - app.core.admin:115 - INFO - check_permission is_admin: True admin:user:list ['admin:user:create', 'admin:menu:details', 'admin:role:export', 'admin:user:delete', 'admin:menu:export', 'admin:role:details', 'admin:user:list', 'admin:role:list', 'admin:user:details', 'admin:menu:delete', 'admin:user:export', 'admin:menu:list', 'admin:role:create', 'admin:user:edit', 'admin:role:delete', 'admin:menu:edit', 'admin:role:edit', 'admin:menu:create']
+2026-01-26 16:43:22 - app.core.admin:126 - INFO - is_visible request: <starlette.requests.Request object at 0x10e668450>
+2026-01-26 16:43:22 - app.core.admin:115 - INFO - check_permission is_admin: True admin:role:list ['admin:user:create', 'admin:menu:details', 'admin:role:export', 'admin:user:delete', 'admin:menu:export', 'admin:role:details', 'admin:user:list', 'admin:role:list', 'admin:user:details', 'admin:menu:delete', 'admin:user:export', 'admin:menu:list', 'admin:role:create', 'admin:user:edit', 'admin:role:delete', 'admin:menu:edit', 'admin:role:edit', 'admin:menu:create']
+2026-01-26 16:43:22 - app.core.admin:115 - INFO - check_permission is_admin: True admin:role:list ['admin:user:create', 'admin:menu:details', 'admin:role:export', 'admin:user:delete', 'admin:menu:export', 'admin:role:details', 'admin:user:list', 'admin:role:list', 'admin:user:details', 'admin:menu:delete', 'admin:user:export', 'admin:menu:list', 'admin:role:create', 'admin:user:edit', 'admin:role:delete', 'admin:menu:edit', 'admin:role:edit', 'admin:menu:create']
+2026-01-26 16:43:22 - app.core.admin:126 - INFO - is_visible request: <starlette.requests.Request object at 0x10e668450>
+2026-01-26 16:43:22 - app.core.admin:115 - INFO - check_permission is_admin: True admin:menu:list ['admin:user:create', 'admin:menu:details', 'admin:role:export', 'admin:user:delete', 'admin:menu:export', 'admin:role:details', 'admin:user:list', 'admin:role:list', 'admin:user:details', 'admin:menu:delete', 'admin:user:export', 'admin:menu:list', 'admin:role:create', 'admin:user:edit', 'admin:role:delete', 'admin:menu:edit', 'admin:role:edit', 'admin:menu:create']
+2026-01-26 16:43:22 - app.core.admin:115 - INFO - check_permission is_admin: True admin:menu:list ['admin:user:create', 'admin:menu:details', 'admin:role:export', 'admin:user:delete', 'admin:menu:export', 'admin:role:details', 'admin:user:list', 'admin:role:list', 'admin:user:details', 'admin:menu:delete', 'admin:user:export', 'admin:menu:list', 'admin:role:create', 'admin:user:edit', 'admin:role:delete', 'admin:menu:edit', 'admin:role:edit', 'admin:menu:create']
+2026-01-26 16:48:20 - uvicorn.error:264 - INFO - Shutting down
+2026-01-26 16:48:20 - uvicorn.error:299 - INFO - Waiting for connections to close. (CTRL+C to force quit)
+2026-01-26 16:48:59 - uvicorn.error:67 - INFO - Waiting for application shutdown.
+2026-01-26 16:48:59 - app.app:36 - INFO - Stopping the application
+2026-01-26 16:48:59 - uvicorn.error:76 - INFO - Application shutdown complete.
+2026-01-26 16:48:59 - uvicorn.error:94 - INFO - Finished server process [26290]
+2026-01-26 16:49:01 - app.app:28 - INFO - Starting the application
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role_menu")
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role")
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_menu")
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_user")
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:2716 - INFO - COMMIT
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.name IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00035s] ('系统管理', '用户管理', '添加用户', '编辑用户', '删除用户', '导出用户', '用户详情', '角色管理', '添加角色', '编辑角色', '删除角色', '导出角色', '角色详情', '菜单管理', '添加菜单', '编辑菜单', '删除菜单', '导出菜单', '菜单详情')
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.status = 1
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.02023s] ()
+2026-01-26 16:49:01 - app.admin.role.data:19 - INFO - menus size: 19
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id, sys_role.name, sys_role.description 
+FROM sys_role 
+WHERE sys_role.name IN (?, ?)
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00048s] ('admin', 'visitor')
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?, ?)
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00053s] ('a9a70d8c62204c188ba9660635d70977', '1f27002d006342888fe61668ac0b7178')
+2026-01-26 16:49:01 - app.admin.role.data:41 - INFO - existing_role_names size: 2
+2026-01-26 16:49:01 - app.admin.role.data:44 - INFO - non_existing_roles size: 0
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00028s] ('admin',)
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00029s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00048s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.008948s ago] ('visitor',)
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.008265s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.006734s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:49:01 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:49:01 - uvicorn.error:62 - INFO - Application startup complete.
+2026-01-26 16:49:04 - app.core.security:67 - INFO - credentials: 222
+2026-01-26 16:49:04 - app.core.security:71 - INFO - current_username: 222
+2026-01-26 16:49:04 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:49:04 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:49:04 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 2.971s ago] ('222',)
+2026-01-26 16:49:04 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:49:06 - app.core.security:67 - INFO - credentials: 123123
+2026-01-26 16:49:06 - app.core.security:71 - INFO - current_username: 123123
+2026-01-26 16:49:06 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:49:06 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:49:06 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 5.382s ago] ('123123',)
+2026-01-26 16:49:06 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:49:10 - app.core.security:67 - INFO - credentials: 2123123123
+2026-01-26 16:49:10 - app.core.security:71 - INFO - current_username: 2123123123
+2026-01-26 16:49:10 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:49:10 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:49:10 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 8.533s ago] ('2123123123',)
+2026-01-26 16:49:10 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:49:12 - slowapi:510 - WARNING - ratelimit 3 per 1 minute (127.0.0.1) exceeded at endpoint: /docs
+2026-01-26 16:49:12 - app.core.slowapi:21 - ERROR - Rate limit exceeded: 3 per 1 minute
+2026-01-26 16:49:20 - uvicorn.error:264 - INFO - Shutting down
+2026-01-26 16:49:20 - uvicorn.error:67 - INFO - Waiting for application shutdown.
+2026-01-26 16:49:20 - app.app:35 - INFO - Stopping the application
+2026-01-26 16:49:20 - uvicorn.error:76 - INFO - Application shutdown complete.
+2026-01-26 16:49:20 - uvicorn.error:94 - INFO - Finished server process [26492]
+2026-01-26 16:49:22 - app.app:28 - INFO - Starting the application
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role_menu")
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role")
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_menu")
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_user")
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:2716 - INFO - COMMIT
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.name IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00035s] ('系统管理', '用户管理', '添加用户', '编辑用户', '删除用户', '导出用户', '用户详情', '角色管理', '添加角色', '编辑角色', '删除角色', '导出角色', '角色详情', '菜单管理', '添加菜单', '编辑菜单', '删除菜单', '导出菜单', '菜单详情')
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.status = 1
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00027s] ()
+2026-01-26 16:49:22 - app.admin.role.data:19 - INFO - menus size: 19
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id, sys_role.name, sys_role.description 
+FROM sys_role 
+WHERE sys_role.name IN (?, ?)
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00049s] ('admin', 'visitor')
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?, ?)
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.01392s] ('a9a70d8c62204c188ba9660635d70977', '1f27002d006342888fe61668ac0b7178')
+2026-01-26 16:49:22 - app.admin.role.data:41 - INFO - existing_role_names size: 2
+2026-01-26 16:49:22 - app.admin.role.data:44 - INFO - non_existing_roles size: 0
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00042s] ('admin',)
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00048s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00085s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.01581s ago] ('visitor',)
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.01529s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.01163s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:49:22 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:49:22 - uvicorn.error:62 - INFO - Application startup complete.
+2026-01-26 16:50:22 - uvicorn.error:264 - INFO - Shutting down
+2026-01-26 16:50:22 - uvicorn.error:67 - INFO - Waiting for application shutdown.
+2026-01-26 16:50:22 - app.app:35 - INFO - Stopping the application
+2026-01-26 16:50:22 - uvicorn.error:76 - INFO - Application shutdown complete.
+2026-01-26 16:50:22 - uvicorn.error:94 - INFO - Finished server process [26524]
+2026-01-26 16:50:24 - app.app:28 - INFO - Starting the application
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role_menu")
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role")
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_menu")
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_user")
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:2716 - INFO - COMMIT
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.name IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00109s] ('系统管理', '用户管理', '添加用户', '编辑用户', '删除用户', '导出用户', '用户详情', '角色管理', '添加角色', '编辑角色', '删除角色', '导出角色', '角色详情', '菜单管理', '添加菜单', '编辑菜单', '删除菜单', '导出菜单', '菜单详情')
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.status = 1
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00057s] ()
+2026-01-26 16:50:24 - app.admin.role.data:19 - INFO - menus size: 19
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id, sys_role.name, sys_role.description 
+FROM sys_role 
+WHERE sys_role.name IN (?, ?)
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00042s] ('admin', 'visitor')
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?, ?)
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00051s] ('a9a70d8c62204c188ba9660635d70977', '1f27002d006342888fe61668ac0b7178')
+2026-01-26 16:50:24 - app.admin.role.data:41 - INFO - existing_role_names size: 2
+2026-01-26 16:50:24 - app.admin.role.data:44 - INFO - non_existing_roles size: 0
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00033s] ('admin',)
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00031s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00049s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.01024s ago] ('visitor',)
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.00853s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.006701s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:50:24 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:50:24 - uvicorn.error:62 - INFO - Application startup complete.
+2026-01-26 16:50:25 - uvicorn.error:264 - INFO - Shutting down
+2026-01-26 16:50:25 - uvicorn.error:67 - INFO - Waiting for application shutdown.
+2026-01-26 16:50:25 - app.app:35 - INFO - Stopping the application
+2026-01-26 16:50:25 - uvicorn.error:76 - INFO - Application shutdown complete.
+2026-01-26 16:50:25 - uvicorn.error:94 - INFO - Finished server process [26564]
+2026-01-26 16:50:27 - app.app:28 - INFO - Starting the application
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role_menu")
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role")
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_menu")
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_user")
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:2716 - INFO - COMMIT
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.name IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00062s] ('系统管理', '用户管理', '添加用户', '编辑用户', '删除用户', '导出用户', '用户详情', '角色管理', '添加角色', '编辑角色', '删除角色', '导出角色', '角色详情', '菜单管理', '添加菜单', '编辑菜单', '删除菜单', '导出菜单', '菜单详情')
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.status = 1
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00027s] ()
+2026-01-26 16:50:27 - app.admin.role.data:19 - INFO - menus size: 19
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id, sys_role.name, sys_role.description 
+FROM sys_role 
+WHERE sys_role.name IN (?, ?)
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.01909s] ('admin', 'visitor')
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?, ?)
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00044s] ('a9a70d8c62204c188ba9660635d70977', '1f27002d006342888fe61668ac0b7178')
+2026-01-26 16:50:27 - app.admin.role.data:41 - INFO - existing_role_names size: 2
+2026-01-26 16:50:27 - app.admin.role.data:44 - INFO - non_existing_roles size: 0
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00030s] ('admin',)
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00031s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00042s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.009184s ago] ('visitor',)
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.007846s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.006124s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:50:27 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:50:27 - uvicorn.error:62 - INFO - Application startup complete.
+2026-01-26 16:50:27 - uvicorn.error:264 - INFO - Shutting down
+2026-01-26 16:50:27 - uvicorn.error:67 - INFO - Waiting for application shutdown.
+2026-01-26 16:50:27 - app.app:35 - INFO - Stopping the application
+2026-01-26 16:50:27 - uvicorn.error:76 - INFO - Application shutdown complete.
+2026-01-26 16:50:27 - uvicorn.error:94 - INFO - Finished server process [26576]
+2026-01-26 16:50:29 - app.app:28 - INFO - Starting the application
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role_menu")
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role")
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_menu")
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_user")
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:2716 - INFO - COMMIT
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.name IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00075s] ('系统管理', '用户管理', '添加用户', '编辑用户', '删除用户', '导出用户', '用户详情', '角色管理', '添加角色', '编辑角色', '删除角色', '导出角色', '角色详情', '菜单管理', '添加菜单', '编辑菜单', '删除菜单', '导出菜单', '菜单详情')
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.status = 1
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00043s] ()
+2026-01-26 16:50:29 - app.admin.role.data:19 - INFO - menus size: 19
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id, sys_role.name, sys_role.description 
+FROM sys_role 
+WHERE sys_role.name IN (?, ?)
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00059s] ('admin', 'visitor')
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?, ?)
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00049s] ('a9a70d8c62204c188ba9660635d70977', '1f27002d006342888fe61668ac0b7178')
+2026-01-26 16:50:29 - app.admin.role.data:41 - INFO - existing_role_names size: 2
+2026-01-26 16:50:29 - app.admin.role.data:44 - INFO - non_existing_roles size: 0
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00033s] ('admin',)
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00056s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00053s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.01195s ago] ('visitor',)
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.009847s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.007047s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:50:29 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:50:29 - uvicorn.error:62 - INFO - Application startup complete.
+2026-01-26 16:50:31 - uvicorn.error:264 - INFO - Shutting down
+2026-01-26 16:50:31 - uvicorn.error:67 - INFO - Waiting for application shutdown.
+2026-01-26 16:50:31 - app.app:35 - INFO - Stopping the application
+2026-01-26 16:50:31 - uvicorn.error:76 - INFO - Application shutdown complete.
+2026-01-26 16:50:31 - uvicorn.error:94 - INFO - Finished server process [26580]
+2026-01-26 16:50:35 - app.app:28 - INFO - Starting the application
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role_menu")
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role")
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_menu")
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_user")
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:2716 - INFO - COMMIT
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.name IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00036s] ('系统管理', '用户管理', '添加用户', '编辑用户', '删除用户', '导出用户', '用户详情', '角色管理', '添加角色', '编辑角色', '删除角色', '导出角色', '角色详情', '菜单管理', '添加菜单', '编辑菜单', '删除菜单', '导出菜单', '菜单详情')
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.status = 1
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00024s] ()
+2026-01-26 16:50:35 - app.admin.role.data:19 - INFO - menus size: 19
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id, sys_role.name, sys_role.description 
+FROM sys_role 
+WHERE sys_role.name IN (?, ?)
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.02122s] ('admin', 'visitor')
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?, ?)
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00061s] ('a9a70d8c62204c188ba9660635d70977', '1f27002d006342888fe61668ac0b7178')
+2026-01-26 16:50:35 - app.admin.role.data:41 - INFO - existing_role_names size: 2
+2026-01-26 16:50:35 - app.admin.role.data:44 - INFO - non_existing_roles size: 0
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00024s] ('admin',)
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00029s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00056s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.00946s ago] ('visitor',)
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.008681s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.007223s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:50:35 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:50:35 - uvicorn.error:62 - INFO - Application startup complete.
+2026-01-26 16:51:10 - uvicorn.error:264 - INFO - Shutting down
+2026-01-26 16:51:10 - uvicorn.error:67 - INFO - Waiting for application shutdown.
+2026-01-26 16:51:10 - app.app:35 - INFO - Stopping the application
+2026-01-26 16:51:10 - uvicorn.error:76 - INFO - Application shutdown complete.
+2026-01-26 16:51:10 - uvicorn.error:94 - INFO - Finished server process [26592]
+2026-01-26 16:51:12 - app.app:28 - INFO - Starting the application
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role_menu")
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role")
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_menu")
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_user")
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:2716 - INFO - COMMIT
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.name IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00066s] ('系统管理', '用户管理', '添加用户', '编辑用户', '删除用户', '导出用户', '用户详情', '角色管理', '添加角色', '编辑角色', '删除角色', '导出角色', '角色详情', '菜单管理', '添加菜单', '编辑菜单', '删除菜单', '导出菜单', '菜单详情')
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.status = 1
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00026s] ()
+2026-01-26 16:51:12 - app.admin.role.data:19 - INFO - menus size: 19
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id, sys_role.name, sys_role.description 
+FROM sys_role 
+WHERE sys_role.name IN (?, ?)
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.02074s] ('admin', 'visitor')
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?, ?)
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00047s] ('a9a70d8c62204c188ba9660635d70977', '1f27002d006342888fe61668ac0b7178')
+2026-01-26 16:51:12 - app.admin.role.data:41 - INFO - existing_role_names size: 2
+2026-01-26 16:51:12 - app.admin.role.data:44 - INFO - non_existing_roles size: 0
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00028s] ('admin',)
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00028s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00034s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.007847s ago] ('visitor',)
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.006652s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.005664s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:51:12 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:51:12 - uvicorn.error:62 - INFO - Application startup complete.
+2026-01-26 16:51:30 - uvicorn.error:264 - INFO - Shutting down
+2026-01-26 16:51:30 - uvicorn.error:67 - INFO - Waiting for application shutdown.
+2026-01-26 16:51:30 - app.app:35 - INFO - Stopping the application
+2026-01-26 16:51:30 - uvicorn.error:76 - INFO - Application shutdown complete.
+2026-01-26 16:51:30 - uvicorn.error:94 - INFO - Finished server process [26630]
+2026-01-26 16:51:33 - app.app:28 - INFO - Starting the application
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role_menu")
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role")
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_menu")
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_user")
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:2716 - INFO - COMMIT
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.name IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00049s] ('系统管理', '用户管理', '添加用户', '编辑用户', '删除用户', '导出用户', '用户详情', '角色管理', '添加角色', '编辑角色', '删除角色', '导出角色', '角色详情', '菜单管理', '添加菜单', '编辑菜单', '删除菜单', '导出菜单', '菜单详情')
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.status = 1
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.02177s] ()
+2026-01-26 16:51:33 - app.admin.role.data:19 - INFO - menus size: 19
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id, sys_role.name, sys_role.description 
+FROM sys_role 
+WHERE sys_role.name IN (?, ?)
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00038s] ('admin', 'visitor')
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?, ?)
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00050s] ('a9a70d8c62204c188ba9660635d70977', '1f27002d006342888fe61668ac0b7178')
+2026-01-26 16:51:33 - app.admin.role.data:41 - INFO - existing_role_names size: 2
+2026-01-26 16:51:33 - app.admin.role.data:44 - INFO - non_existing_roles size: 0
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00028s] ('admin',)
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00039s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00045s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.009009s ago] ('visitor',)
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.008002s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.00641s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:51:33 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:51:33 - uvicorn.error:62 - INFO - Application startup complete.
+2026-01-26 16:51:33 - uvicorn.error:134 - ERROR - Traceback (most recent call last):
+  File "/Users/fucheng/.local/share/uv/python/cpython-3.13.5-macos-x86_64-none/lib/python3.13/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "/Users/fucheng/.local/share/uv/python/cpython-3.13.5-macos-x86_64-none/lib/python3.13/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "uvloop/loop.pyx", line 1512, in uvloop.loop.Loop.run_until_complete
+  File "uvloop/loop.pyx", line 1505, in uvloop.loop.Loop.run_until_complete
+  File "uvloop/loop.pyx", line 1379, in uvloop.loop.Loop.run_forever
+  File "uvloop/loop.pyx", line 557, in uvloop.loop.Loop._run
+  File "uvloop/loop.pyx", line 476, in uvloop.loop.Loop._on_idle
+  File "uvloop/cbhandles.pyx", line 83, in uvloop.loop.Handle._run
+  File "uvloop/cbhandles.pyx", line 63, in uvloop.loop.Handle._run
+  File "/Users/fucheng/Code/fastapi-example/.venv/lib/python3.13/site-packages/uvicorn/server.py", line 70, in serve
+    with self.capture_signals():
+         ~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/fucheng/.local/share/uv/python/cpython-3.13.5-macos-x86_64-none/lib/python3.13/contextlib.py", line 148, in __exit__
+    next(self.gen)
+    ~~~~^^^^^^^^^^
+  File "/Users/fucheng/Code/fastapi-example/.venv/lib/python3.13/site-packages/uvicorn/server.py", line 331, in capture_signals
+    signal.raise_signal(captured_signal)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/fucheng/Code/fastapi-example/.venv/lib/python3.13/site-packages/rich_toolkit/utils/colors.py", line 159, in <lambda>
+    signal.SIGTERM, lambda signum, frame: (restore_terminal(), sys.exit(0))
+                                                               ~~~~~~~~^^^
+SystemExit: 0
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/fucheng/Code/fastapi-example/.venv/lib/python3.13/site-packages/starlette/routing.py", line 701, in lifespan
+    await receive()
+  File "/Users/fucheng/Code/fastapi-example/.venv/lib/python3.13/site-packages/uvicorn/lifespan/on.py", line 137, in receive
+    return await self.receive_queue.get()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/fucheng/.local/share/uv/python/cpython-3.13.5-macos-x86_64-none/lib/python3.13/asyncio/queues.py", line 186, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+2026-01-26 16:51:34 - app.app:28 - INFO - Starting the application
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role_menu")
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role")
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_menu")
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_user")
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:2716 - INFO - COMMIT
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.name IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00035s] ('系统管理', '用户管理', '添加用户', '编辑用户', '删除用户', '导出用户', '用户详情', '角色管理', '添加角色', '编辑角色', '删除角色', '导出角色', '角色详情', '菜单管理', '添加菜单', '编辑菜单', '删除菜单', '导出菜单', '菜单详情')
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.status = 1
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00034s] ()
+2026-01-26 16:51:34 - app.admin.role.data:19 - INFO - menus size: 19
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id, sys_role.name, sys_role.description 
+FROM sys_role 
+WHERE sys_role.name IN (?, ?)
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00042s] ('admin', 'visitor')
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?, ?)
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00051s] ('a9a70d8c62204c188ba9660635d70977', '1f27002d006342888fe61668ac0b7178')
+2026-01-26 16:51:34 - app.admin.role.data:41 - INFO - existing_role_names size: 2
+2026-01-26 16:51:34 - app.admin.role.data:44 - INFO - non_existing_roles size: 0
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00026s] ('admin',)
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00026s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00067s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.009595s ago] ('visitor',)
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.008714s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.00706s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:51:34 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:51:34 - uvicorn.error:62 - INFO - Application startup complete.
+2026-01-26 16:51:42 - uvicorn.error:264 - INFO - Shutting down
+2026-01-26 16:51:43 - uvicorn.error:67 - INFO - Waiting for application shutdown.
+2026-01-26 16:51:43 - app.app:35 - INFO - Stopping the application
+2026-01-26 16:51:43 - uvicorn.error:76 - INFO - Application shutdown complete.
+2026-01-26 16:51:43 - uvicorn.error:94 - INFO - Finished server process [26742]
+2026-01-26 16:51:44 - app.app:28 - INFO - Starting the application
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role_menu")
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role")
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_menu")
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_user")
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:2716 - INFO - COMMIT
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.name IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00033s] ('系统管理', '用户管理', '添加用户', '编辑用户', '删除用户', '导出用户', '用户详情', '角色管理', '添加角色', '编辑角色', '删除角色', '导出角色', '角色详情', '菜单管理', '添加菜单', '编辑菜单', '删除菜单', '导出菜单', '菜单详情')
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.status = 1
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00025s] ()
+2026-01-26 16:51:44 - app.admin.role.data:19 - INFO - menus size: 19
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id, sys_role.name, sys_role.description 
+FROM sys_role 
+WHERE sys_role.name IN (?, ?)
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.02309s] ('admin', 'visitor')
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?, ?)
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00047s] ('a9a70d8c62204c188ba9660635d70977', '1f27002d006342888fe61668ac0b7178')
+2026-01-26 16:51:44 - app.admin.role.data:41 - INFO - existing_role_names size: 2
+2026-01-26 16:51:44 - app.admin.role.data:44 - INFO - non_existing_roles size: 0
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00028s] ('admin',)
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00039s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00047s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.009574s ago] ('visitor',)
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.007784s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.005948s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:51:44 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:51:44 - uvicorn.error:62 - INFO - Application startup complete.
+2026-01-26 16:51:52 - uvicorn.error:264 - INFO - Shutting down
+2026-01-26 16:51:53 - uvicorn.error:67 - INFO - Waiting for application shutdown.
+2026-01-26 16:51:53 - app.app:35 - INFO - Stopping the application
+2026-01-26 16:51:53 - uvicorn.error:76 - INFO - Application shutdown complete.
+2026-01-26 16:51:53 - uvicorn.error:94 - INFO - Finished server process [26752]
+2026-01-26 16:51:55 - app.app:28 - INFO - Starting the application
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role_menu")
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role")
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_menu")
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_user")
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:2716 - INFO - COMMIT
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.name IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00033s] ('系统管理', '用户管理', '添加用户', '编辑用户', '删除用户', '导出用户', '用户详情', '角色管理', '添加角色', '编辑角色', '删除角色', '导出角色', '角色详情', '菜单管理', '添加菜单', '编辑菜单', '删除菜单', '导出菜单', '菜单详情')
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.status = 1
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00023s] ()
+2026-01-26 16:51:55 - app.admin.role.data:19 - INFO - menus size: 19
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id, sys_role.name, sys_role.description 
+FROM sys_role 
+WHERE sys_role.name IN (?, ?)
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00030s] ('admin', 'visitor')
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?, ?)
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.01772s] ('a9a70d8c62204c188ba9660635d70977', '1f27002d006342888fe61668ac0b7178')
+2026-01-26 16:51:55 - app.admin.role.data:41 - INFO - existing_role_names size: 2
+2026-01-26 16:51:55 - app.admin.role.data:44 - INFO - non_existing_roles size: 0
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00025s] ('admin',)
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00025s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00039s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.007755s ago] ('visitor',)
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.006737s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.006333s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:51:55 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:51:55 - uvicorn.error:62 - INFO - Application startup complete.
+2026-01-26 16:52:00 - app.core.security:72 - INFO - credentials: 1231231231
+2026-01-26 16:52:00 - app.core.security:76 - INFO - current_username: 1231231231
+2026-01-26 16:52:00 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:52:00 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:52:00 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 4.955s ago] ('1231231231',)
+2026-01-26 16:52:00 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:52:03 - app.core.security:72 - INFO - credentials: 3232423
+2026-01-26 16:52:03 - app.core.security:76 - INFO - current_username: 3232423
+2026-01-26 16:52:03 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:52:03 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:52:03 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 7.996s ago] ('3232423',)
+2026-01-26 16:52:03 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:52:05 - app.core.security:72 - INFO - credentials: 23423423
+2026-01-26 16:52:05 - app.core.security:76 - INFO - current_username: 23423423
+2026-01-26 16:52:05 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:52:05 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:52:05 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 10.1s ago] ('23423423',)
+2026-01-26 16:52:05 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:52:08 - slowapi:510 - WARNING - ratelimit 3 per 1 minute (127.0.0.1) exceeded at endpoint: /docs
+2026-01-26 16:52:08 - app.core.slowapi:21 - ERROR - Rate limit exceeded: 3 per 1 minute
+2026-01-26 16:52:12 - uvicorn.error:264 - INFO - Shutting down
+2026-01-26 16:52:12 - uvicorn.error:67 - INFO - Waiting for application shutdown.
+2026-01-26 16:52:12 - app.app:35 - INFO - Stopping the application
+2026-01-26 16:52:12 - uvicorn.error:76 - INFO - Application shutdown complete.
+2026-01-26 16:52:12 - uvicorn.error:94 - INFO - Finished server process [26769]
+2026-01-26 16:52:14 - app.app:28 - INFO - Starting the application
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role_menu")
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_role")
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_menu")
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - PRAGMA main.table_info("sys_user")
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - [raw sql] ()
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:2716 - INFO - COMMIT
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:2710 - INFO - BEGIN (implicit)
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.name IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00039s] ('系统管理', '用户管理', '添加用户', '编辑用户', '删除用户', '导出用户', '用户详情', '角色管理', '添加角色', '编辑角色', '删除角色', '导出角色', '角色详情', '菜单管理', '添加菜单', '编辑菜单', '删除菜单', '导出菜单', '菜单详情')
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_menu.id, sys_menu.parent_id, sys_menu.name, sys_menu.path, sys_menu.component, sys_menu.permission, sys_menu.type, sys_menu.icon, sys_menu.sort, sys_menu.visible, sys_menu.status, sys_menu.created_at, sys_menu.updated_at 
+FROM sys_menu 
+WHERE sys_menu.status = 1
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00043s] ()
+2026-01-26 16:52:14 - app.admin.role.data:19 - INFO - menus size: 19
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id, sys_role.name, sys_role.description 
+FROM sys_role 
+WHERE sys_role.name IN (?, ?)
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00032s] ('admin', 'visitor')
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?, ?)
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00051s] ('a9a70d8c62204c188ba9660635d70977', '1f27002d006342888fe61668ac0b7178')
+2026-01-26 16:52:14 - app.admin.role.data:41 - INFO - existing_role_names size: 2
+2026-01-26 16:52:14 - app.admin.role.data:44 - INFO - non_existing_roles size: 0
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.02299s] ('admin',)
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00039s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - [generated in 0.00049s] ('a9a70d8c62204c188ba9660635d70977',)
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_user.id, sys_user.username, sys_user.hashed_password, sys_user.email, sys_user.is_admin, sys_user.role_id, sys_user.created_at, sys_user.updated_at 
+FROM sys_user 
+WHERE sys_user.username = ?
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.03352s ago] ('visitor',)
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role.id AS sys_role_id, sys_role.name AS sys_role_name, sys_role.description AS sys_role_description 
+FROM sys_role 
+WHERE sys_role.id IN (?)
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.009589s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - SELECT sys_role_1.id AS sys_role_1_id, sys_menu.id AS sys_menu_id, sys_menu.parent_id AS sys_menu_parent_id, sys_menu.name AS sys_menu_name, sys_menu.path AS sys_menu_path, sys_menu.component AS sys_menu_component, sys_menu.permission AS sys_menu_permission, sys_menu.type AS sys_menu_type, sys_menu.icon AS sys_menu_icon, sys_menu.sort AS sys_menu_sort, sys_menu.visible AS sys_menu_visible, sys_menu.status AS sys_menu_status, sys_menu.created_at AS sys_menu_created_at, sys_menu.updated_at AS sys_menu_updated_at 
+FROM sys_role AS sys_role_1 JOIN sys_role_menu AS sys_role_menu_1 ON sys_role_1.id = sys_role_menu_1.role_id JOIN sys_menu ON sys_menu.id = sys_role_menu_1.menu_id 
+WHERE sys_role_1.id IN (?)
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:1846 - INFO - [cached since 0.006326s ago] ('1f27002d006342888fe61668ac0b7178',)
+2026-01-26 16:52:14 - sqlalchemy.engine.Engine:2713 - INFO - ROLLBACK
+2026-01-26 16:52:14 - uvicorn.error:62 - INFO - Application startup complete.
+2026-01-26 16:52:18 - uvicorn.error:264 - INFO - Shutting down
+2026-01-26 16:52:18 - uvicorn.error:67 - INFO - Waiting for application shutdown.
+2026-01-26 16:52:18 - app.app:35 - INFO - Stopping the application
+2026-01-26 16:52:18 - uvicorn.error:76 - INFO - Application shutdown complete.
+2026-01-26 16:52:18 - uvicorn.error:94 - INFO - Finished server process [26798]

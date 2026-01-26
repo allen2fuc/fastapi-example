@@ -5,7 +5,7 @@ import uuid
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from app.system.menu.models import Menu
+from app.admin.menu.models import Menu
 
 from .models import Role
 
