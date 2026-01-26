@@ -3,12 +3,12 @@
 from datetime import datetime
 import logging
 from contextvars import ContextVar
-import traceback
 from typing import override
 from fastapi import FastAPI, Request
 from sqladmin import Admin, ModelView
 from sqladmin.authentication import AuthenticationBackend
 
+from app.admin.login import login_crud
 from app.core.database import get_session_context
 from app.core.security import verify_password
 from app.admin.user import user_crud
@@ -29,14 +29,18 @@ class AdminAuth(AuthenticationBackend):
         async with get_session_context() as session:
             user = await user_crud.get_user_by_username(username, session)
             if not user:
+                logger.info(f"用户不存在: {username}")
+                await login_crud.create_login_log_from_request(username, False, "用户不存在", request, session)
                 return False
 
             if not verify_password(password, user.hashed_password):
+                logger.info(f"密码错误: {username}")
+                await login_crud.create_login_log_from_request(username, False, "密码错误", request, session)
                 return False
-
+            
+            logger.info(f"登录成功: {username}")
+            await login_crud.create_login_log_from_request(username, True, "登录成功", request, session)
         permissions = {menu.permission for menu in user.role.menus if menu.permission}
-
-        logger.info(f"permissions: {permissions}")
 
         # Validate username/password credentials
         # And update session
@@ -112,7 +116,6 @@ class CustomAdmin(ModelView):
     def check_permission(self, request: Request, permission: str) -> bool:
         permissions = request.session.get("permissions", [])
         is_admin = request.session.get("is_admin", False)
-        logger.info(f"check_permission is_admin: {is_admin} {permission} {permissions}")
         return is_admin or permission in permissions
 
     @override
@@ -123,7 +126,6 @@ class CustomAdmin(ModelView):
     def is_visible(self, request: Request) -> bool:
         # 设置 contextvar 以便权限检查方法可以访问 request
         _current_request.set(request)
-        logger.info(f"is_visible request: {request}")
         return self.check_permission(request, f"{self.permission_prefix}:list")
 
     def _get_permission_from_session(self, permission: str) -> bool:
@@ -133,10 +135,8 @@ class CustomAdmin(ModelView):
             # 打印堆栈信息
             # logger.info(f"stack trace: {traceback.extract_stack()}")
 
-            logger.info(f"_get_permission_from_session permission: {permission}")
             request = _current_request.get()
             if request:
-                logger.info(f"_get_permission_from_session request: {request}")
                 return self.check_permission(request, permission)
         except Exception as e:
             logger.warning(f"Failed to get permission from session: {e}")
@@ -177,6 +177,7 @@ def register_admin(app: FastAPI):
     from app.admin.menu.admin import MenuAdmin
     from app.admin.role.admin import RoleAdmin
     from app.admin.user.admin import UserAdmin
+    from app.admin.login.admin import LoginLogAdmin
 
     # hex
     authentication_backend = AdminAuth(secret_key=ADMIN_SECRET_KEY)
@@ -193,3 +194,4 @@ def register_admin(app: FastAPI):
     admin.add_view(UserAdmin)
     admin.add_view(RoleAdmin)
     admin.add_view(MenuAdmin)
+    admin.add_view(LoginLogAdmin)

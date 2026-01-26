@@ -33,7 +33,10 @@ async def init_menu_data(session: AsyncSession):
     menu_export_menu = Menu(id=uuid.uuid4(), parent_id=menu_menu.id, name="导出菜单", path="/admin/menu/export", component="MenuExport", permission="admin:menu:export", type=3, icon="export", sort=4, visible=True, status=True)
     menu_details_menu = Menu(id=uuid.uuid4(), parent_id=menu_menu.id, name="菜单详情", path="/admin/menu/details", component="MenuDetails", permission="admin:menu:details", type=3, icon="info", sort=5, visible=True, status=True)
 
-    menu_list = [system_menu, user_menu, user_add_menu, user_edit_menu, user_delete_menu, user_export_menu, user_details_menu, role_menu, role_add_menu, role_edit_menu, role_delete_menu, role_export_menu, role_details_menu, menu_menu, menu_add_menu, menu_edit_menu, menu_delete_menu, menu_export_menu, menu_details_menu]
+    login_log_menu = Menu(id=uuid.uuid4(), parent_id=system_menu.id, name="登录日志管理", path="/admin/login/list", component="LoginLog", permission="admin:login:list", type=2, icon="file-alt", sort=4, visible=True, status=True)
+    login_log_delete_menu = Menu(id=uuid.uuid4(), parent_id=login_log_menu.id, name="删除登录日志", path="/admin/login/delete", component="LoginLogDelete", permission="admin:login:delete", type=3, icon="trash", sort=1, visible=True, status=True)
+
+    menu_list = [system_menu, user_menu, user_add_menu, user_edit_menu, user_delete_menu, user_export_menu, user_details_menu, role_menu, role_add_menu, role_edit_menu, role_delete_menu, role_export_menu, role_details_menu, menu_menu, menu_add_menu, menu_edit_menu, menu_delete_menu, menu_export_menu, menu_details_menu, login_log_menu, login_log_delete_menu]
 
     # 根据名称或路径查询是否存在
     menu_names = [menu.name for menu in menu_list]

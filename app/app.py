@@ -28,9 +28,21 @@ async def lifespan(app: FastAPI):
     logger.info("Starting the application")
     await init_db()
     async with get_session_context() as session:
-        await init_menu_data(session)
-        await init_role_data(session)
-        await init_user_data(session)
+        try:
+            logger.info("Initializing menu data...")
+            await init_menu_data(session)
+            logger.info("Menu data initialized successfully")
+            
+            logger.info("Initializing role data...")
+            await init_role_data(session)
+            logger.info("Role data initialized successfully")
+            
+            logger.info("Initializing user data...")
+            await init_user_data(session)
+            logger.info("User data initialized successfully")
+        except Exception as e:
+            logger.error(f"Failed to initialize data: {e}", exc_info=True)
+            raise
     yield
     logger.info("Stopping the application")
 

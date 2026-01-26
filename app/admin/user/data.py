@@ -22,7 +22,8 @@ async def init_user_data(session: AsyncSession):
         admin_role = query_roles_result.one_or_none()
 
         if admin_role:
-            admin_password = secrets.token_urlsafe(12)
+            # admin_password = secrets.token_urlsafe(12)
+            admin_password = "admin123"
             admin_user = User(username="admin", email="admin@example.com", hashed_password=hash_password(admin_password), is_admin=True, role_id=admin_role.id)
             session.add(admin_user)
             logger.info(f"添加管理员用户: {admin_user.username} {admin_password} 成功")
@@ -38,7 +39,8 @@ async def init_user_data(session: AsyncSession):
 
         if visitor_role:
 
-            visitor_password = secrets.token_urlsafe(12)
+            # visitor_password = secrets.token_urlsafe(12)
+            visitor_password = "visitor123"
             visitor_user = User(username="visitor", email="visitor@example.com", hashed_password=hash_password(visitor_password), is_admin=False, role_id=visitor_role.id)
             session.add(visitor_user)
             logger.info(f"添加访客用户: {visitor_user.username} {visitor_password} 成功")

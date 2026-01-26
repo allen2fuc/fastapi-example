@@ -8,6 +8,7 @@ import jwt
 
 from pydantic import BaseModel
 from sqlmodel.ext.asyncio.session import AsyncSession
+from app.admin.login import login_crud
 from app.admin.user import user_crud
 from app.core.database import get_session
 from app.core.slowapi import limiter
@@ -69,28 +70,31 @@ async def get_current_user_with_basic_auth(
     credentials: Annotated[HTTPBasicCredentials, Depends(security)],
     session: AsyncSession = Depends(get_session),
 ):
-    logger.info(f"credentials: {credentials.username}")
     current_username = credentials.username
     current_password = credentials.password
 
     logger.info(f"current_username: {current_username}")
     user = await user_crud.get_user_by_username(current_username, session)
     if not user:
+        logger.info(f"用户不存在: {current_username}")
+        await login_crud.create_login_log_from_request(current_username, False, "用户不存在", request, session)
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Basic"},
         )
     if not verify_password(current_password, user.hashed_password):
+        logger.info(f"密码错误: {current_username}")
+        await login_crud.create_login_log_from_request(current_username, False, "密码错误", request, session)
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Basic"},
         )
+    await login_crud.create_login_log_from_request(current_username, True, "登录成功", request, session)
     return user
 
 
-@limiter.limit("3/minute")
 async def get_current_user(
     request: Request,
     token: Annotated[str, Depends(oauth2_scheme)],
@@ -128,6 +132,8 @@ def reigster_auth_routes(app: FastAPI):
     ) -> Token:
         user = await authenticate_user(session, form_data.username, form_data.password)
         if not user:
+            logger.info(f"用户不存在: {form_data.username}")
+            await login_crud.create_login_log_from_request(form_data.username, False, "用户不存在", request, session)
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Incorrect username or password",
@@ -137,6 +143,8 @@ def reigster_auth_routes(app: FastAPI):
         access_token = create_access_token(
             data={"sub": user.username}, expires_delta=access_token_expires
         )
+        logger.info(f"登录成功: {form_data.username}")
+        await login_crud.create_login_log_from_request(form_data.username, True, "登录成功", request, session)
         return Token(access_token=access_token, token_type="bearer")
 
     app.include_router(router)
