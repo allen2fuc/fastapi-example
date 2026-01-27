@@ -124,6 +124,7 @@ def reigster_auth_routes(app: FastAPI):
     router = APIRouter(prefix="/api/v1", tags=["认证管理"])
 
     @router.post("/auth/token", summary="登录获取Token", response_model=Token)
+    @limiter.limit("5/hour")
     @limiter.limit("3/minute")
     async def login_for_access_token(
         request: Request,

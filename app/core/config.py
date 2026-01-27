@@ -1,7 +1,8 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
-    DB_URL: str = "sqlite+aiosqlite:///./db.sqlite3"
+    DB_URL: str = "sqlite+aiosqlite:///./data/fastapi.db"
+    DB_ECHO: bool = True
 
     LOG_LEVEL: str = "INFO"
     LOG_FORMAT: str = "%(asctime)s - %(name)s:%(lineno)d - %(levelname)s - %(message)s"

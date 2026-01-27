@@ -11,6 +11,12 @@ services:
   server:
     build:
       context: .
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+      - ./static:/app/static
+      - ./templates:/app/templates
+    command: ["fastapi", "run"]
     ports:
       - 8000:8000
 

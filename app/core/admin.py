@@ -12,6 +12,7 @@ from app.admin.login import login_crud
 from app.core.database import get_session_context
 from app.core.security import verify_password
 from app.admin.user import user_crud
+from app.core.slowapi import limiter
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +23,9 @@ _current_request: ContextVar[Request | None] = ContextVar("current_request", def
 
 
 class AdminAuth(AuthenticationBackend):
+
+    @limiter.limit("5/hour")
+    @limiter.limit("3/minute")
     async def login(self, request: Request) -> bool:
         form = await request.form()
         username, password = form["username"], form["password"]
@@ -131,10 +135,6 @@ class CustomAdmin(ModelView):
     def _get_permission_from_session(self, permission: str) -> bool:
         """从 session 中获取权限信息"""
         try:
-
-            # 打印堆栈信息
-            # logger.info(f"stack trace: {traceback.extract_stack()}")
-
             request = _current_request.get()
             if request:
                 return self.check_permission(request, permission)
