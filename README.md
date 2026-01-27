@@ -12,7 +12,7 @@
 ![openapi](docs/images/openapi.png)
 ![login](docs/images/login.png)
 ![user](docs/images/user.png)
-![login_log](docs/images/image.png)
+![login_log](docs/images/login_log.png)
 
 
 ## 目录结构
