@@ -2,6 +2,7 @@ import logging
 from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from slowapi.errors import RateLimitExceeded
 from sqlalchemy.exc import SQLAlchemyError
 
 from app.core.schemas import R
@@ -24,3 +25,9 @@ def register_exceptions(app: FastAPI):
         logger.error(f"Database error: {exc}")
         content = R.error(code=status.HTTP_500_INTERNAL_SERVER_ERROR, message="Internal Server Error").model_dump()
         return JSONResponse(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, content=content)
+
+    @app.exception_handler(RateLimitExceeded)
+    async def rate_limit_exceeded_handler(request: Request, exc: RateLimitExceeded):
+        logger.error(f"Rate limit exceeded: {exc.detail}")
+        content = R.error(code=status.HTTP_429_TOO_MANY_REQUESTS, message="Rate limit exceeded").model_dump()
+        return JSONResponse(status_code=status.HTTP_429_TOO_MANY_REQUESTS, content=content)

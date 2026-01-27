@@ -108,4 +108,5 @@ $ fastapi dev
 - SQLAdmin链接：http://localhost:8000/admin
 
 > 默认管理员用户：admin/admin123 </br>
-> 只读用户：visitor/visitor123
+> 只读用户：visitor/visitor123 </br>
+> 登录做了速率限制，默认每分钟3次，每小时5次错误次数。

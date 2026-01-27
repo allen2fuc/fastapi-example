@@ -10,14 +10,16 @@ from app.core.schemas import R
 
 logger = logging.getLogger(__name__)
 
-limiter = Limiter(key_func=get_remote_address)
+
+def key_func(request: Request):
+    logger.info(f"Rate Limit Request： {request.method} {request.url.path} {request.client.host}")
+    return get_remote_address(request)
+
+
+limiter = Limiter(key_func=key_func)
 
 
 def register_slowapi(app: FastAPI):
-    app.state.limiter = limiter
-    
-    @app.exception_handler(RateLimitExceeded)
-    async def rate_limit_exceeded_handler(request: Request, exc: RateLimitExceeded):
-        logger.error(f"Rate limit exceeded: {exc.detail}")
-        content = R.error(code=status.HTTP_429_TOO_MANY_REQUESTS, message="Rate limit exceeded").model_dump()
-        return JSONResponse(status_code=status.HTTP_429_TOO_MANY_REQUESTS, content=content)
+    pass
+    # 注册为全局RateLimit
+    # app.state.limiter = limiter

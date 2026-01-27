@@ -1,6 +1,8 @@
+import logging
 import time
 from fastapi import FastAPI, Request
 
+logger = logging.getLogger(__name__)
 
 def register_middlewares(app: FastAPI):
 
@@ -10,6 +12,7 @@ def register_middlewares(app: FastAPI):
         response = await call_next(request)
         process_time = time.time() - start_time
         response.headers["X-Process-Time"] = str(process_time)
+        logger.info(f"Request {request.method} {request.url.path} {request.client.host} {process_time:.5f} {response.status_code}")
         return response
 
     # @app.middleware("http")
@@ -30,5 +33,6 @@ def register_middlewares(app: FastAPI):
         allow_headers=["*"]
     )
 
+    # 把请求的IP自动赋值给request.client.host
     from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
     app.add_middleware(ProxyHeadersMiddleware, trusted_hosts=["*"])

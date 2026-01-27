@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta, timezone
 import logging
+from fastapi.security.http import HTTPBase
 from pwdlib import PasswordHash
 from fastapi.security import HTTPBasic, HTTPBasicCredentials, OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, status
@@ -19,10 +20,10 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/token")
+# 感觉极不安全，相当于直接把账号密码写在请求头里
 security = HTTPBasic()
 
 logger = logging.getLogger(__name__)
-
 
 class Token(BaseModel):
     access_token: str
@@ -63,8 +64,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
-
-@limiter.limit("3/minute")
+@limiter.limit("10/minute")
 async def get_current_user_with_basic_auth(
     request: Request,
     credentials: Annotated[HTTPBasicCredentials, Depends(security)],
@@ -73,10 +73,9 @@ async def get_current_user_with_basic_auth(
     current_username = credentials.username
     current_password = credentials.password
 
-    logger.info(f"current_username: {current_username}")
+    logger.info(f"Current Login Basic username{credentials.username}")
     user = await user_crud.get_user_by_username(current_username, session)
     if not user:
-        logger.info(f"用户不存在: {current_username}")
         await login_crud.create_login_log_from_request(current_username, False, "用户不存在", request, session)
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -84,14 +83,12 @@ async def get_current_user_with_basic_auth(
             headers={"WWW-Authenticate": "Basic"},
         )
     if not verify_password(current_password, user.hashed_password):
-        logger.info(f"密码错误: {current_username}")
         await login_crud.create_login_log_from_request(current_username, False, "密码错误", request, session)
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Basic"},
         )
-    await login_crud.create_login_log_from_request(current_username, True, "登录成功", request, session)
     return user
 
 
