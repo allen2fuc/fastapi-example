@@ -5,7 +5,6 @@ from sqlmodel import (
     Boolean, 
     DateTime, 
     Field, 
-    ForeignKey, 
     Integer, 
     Relationship, 
     SQLModel, 
