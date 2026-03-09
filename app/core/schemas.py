@@ -1,15 +1,15 @@
 
 
 
-from typing import Annotated, Generic, List, Optional, TypeVar
+from typing import Annotated, Generic, List, TypeVar
 
 from pydantic import BaseModel, Field
 
 T = TypeVar("T")
 
 class QueryPagination(BaseModel):
-    page: Annotated[Optional[int], Field(default=1, description="页码")] = 1
-    page_size: Annotated[Optional[int], Field(default=10, description="每页条数")] = 20
+    page: Annotated[int, Field(ge=1, description="页码")] = 1
+    page_size: Annotated[int, Field(default=20, ge=1, description="每页条数")] = 20
 
     def get_offset(self) -> int:
         return (self.page - 1) * self.page_size
