@@ -1,40 +1,30 @@
-
-
 import logging
 from logging.handlers import RotatingFileHandler
-import os
+from pathlib import Path
 
-from app.core.config import settings
+from .config import settings
 
+def setup_logger() -> None:
 
-def setup_logger():
+    # 如果目录不存在
+    Path(settings.LOG_FILE).parent.mkdir(parents=True, exist_ok=True)
 
-    # 如果日志目录不存在
-    if not os.path.exists(os.path.dirname(settings.LOG_FILE)):
-        os.makedirs(os.path.dirname(settings.LOG_FILE), exist_ok=True)
-
-    logger_level = settings.LOG_LEVEL
-
-    formatter = logging.Formatter(
-        settings.LOG_FORMAT,
-        datefmt=settings.LOG_DATEFMT
-    )
+    fmt = logging.Formatter(settings.LOG_FORMAT)
 
     file_handler = RotatingFileHandler(
         filename=settings.LOG_FILE,
-        maxBytes=settings.LOG_FILE_MAX_BYTES,
-        backupCount=settings.LOG_FILE_BACKUP_COUNT,
-        encoding=settings.LOG_FILE_ENCODING
+        maxBytes=settings.LOG_MAX_BYTES,
+        backupCount=settings.LOG_BACKUP_COUNT,
+        encoding=settings.LOG_ENCODING,
     )
-    file_handler.setFormatter(formatter)
-    file_handler.setLevel(logger_level)
+    file_handler.setLevel(settings.LOG_LEVEL)
+    file_handler.setFormatter(fmt)
 
     console_handler = logging.StreamHandler()
-    console_handler.setFormatter(formatter)
-    console_handler.setLevel(logger_level)
+    console_handler.setFormatter(fmt)
 
     logging.basicConfig(
-        level=logger_level,
+        level=settings.LOG_LEVEL,
         handlers=[console_handler, file_handler]
     )
 

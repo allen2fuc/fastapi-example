@@ -1,18 +1,25 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
-    DB_URL: str = "sqlite+aiosqlite:///./data/fastapi.db"
-    DB_ECHO: bool = False
+    PROJECT_NAME: str = "FastAPI Example"
+    PROJECT_VERSION: str = "0.1.0"
+
+    DATABASE_URL: str = "sqlite+aiosqlite:///database.db"
+    DATABASE_ECHO: bool = False
+    DATABASE_EXPIRE_ON_COMMIT: bool = False
+
+    REDIS_URL: str = "redis://localhost:6379/0"
 
     LOG_LEVEL: str = "INFO"
-    LOG_FORMAT: str = "%(asctime)s - %(name)s:%(lineno)d - %(levelname)s - %(message)s"
-    LOG_DATEFMT: str = "%Y-%m-%d %H:%M:%S"
     LOG_FILE: str = "logs/app.log"
-    LOG_FILE_MAX_BYTES: int = 1024 * 1024 * 10
-    LOG_FILE_BACKUP_COUNT: int = 5
-    LOG_FILE_ENCODING: str = "utf-8"
+    LOG_MAX_BYTES: int = 1024 * 1024 * 10
+    LOG_BACKUP_COUNT: int = 5
+    LOG_ENCODING: str = "utf-8"
+    LOG_FORMAT: str = "%(asctime)s - %(name)s:%(lineno)d - %(levelname)s - %(message)s"
 
-    model_config = SettingsConfigDict(env_file=".env")
-
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+    )
 
 settings = Settings()

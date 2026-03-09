@@ -1,27 +1,35 @@
-
-
-from contextlib import asynccontextmanager
-from typing import AsyncGenerator
-from sqlalchemy.ext.asyncio import create_async_engine
-from sqlalchemy.orm import sessionmaker
-from sqlmodel import SQLModel
+from typing import Tuple, cast
+from fastapi import Request
 from sqlmodel.ext.asyncio.session import AsyncSession
-from app.core.config import settings
+from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine, async_sessionmaker
 
-engine = create_async_engine(settings.DB_URL, echo=settings.DB_ECHO, connect_args={"check_same_thread": False})
+from .config import settings
 
-SessionLocal = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+async def setup_database() -> Tuple[AsyncEngine, async_sessionmaker[AsyncSession]]:
 
-async def init_db():
-    async with engine.begin() as conn:
-        await conn.run_sync(SQLModel.metadata.create_all)
+    engine: AsyncEngine = create_async_engine(
+        settings.DATABASE_URL,
+        echo=settings.DATABASE_ECHO
+    )
 
-async def get_session() -> AsyncGenerator[AsyncSession, None]:
-    async with SessionLocal() as session:
-        yield session
+    session_factory = async_sessionmaker[AsyncSession](
+        bind=engine,
+        class_=AsyncSession,
+        expire_on_commit=settings.DATABASE_EXPIRE_ON_COMMIT
+    )
+
+    return engine, session_factory
 
 
-@asynccontextmanager
-async def get_session_context() -> AsyncGenerator[AsyncSession, None]:
-    async with SessionLocal() as session:
+async def close_database(engine: AsyncEngine):
+    await engine.dispose()
+
+
+async def get_session(request: Request) -> AsyncSession:
+    session_factory = cast(
+        async_sessionmaker[AsyncSession], 
+        request.state.session_factory
+    )
+
+    async with session_factory() as session:
         yield session
