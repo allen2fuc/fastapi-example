@@ -2,7 +2,6 @@
 
 from datetime import datetime
 from typing import Annotated
-from fastapi_users import schemas
 from pydantic import BaseModel, EmailStr, Field, SecretStr
 
 class UserBase(BaseModel):
@@ -15,7 +14,7 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     pass
 
-class UserRead(schemas.BaseUser[int]):
+class UserRead(UserBase):
     id: Annotated[int, Field(description="用户ID")]
     created_at: Annotated[datetime, Field(description="创建时间")]
     updated_at: Annotated[datetime, Field(description="更新时间")]
