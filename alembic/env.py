@@ -7,6 +7,7 @@ from alembic import context
 from sqlmodel import SQLModel
 
 from app.core.config import settings
+from app.models.user import User
 
 # Import all domain models here for autogenerate support
 # from app.{domain}.models import *

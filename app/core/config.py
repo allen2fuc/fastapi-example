@@ -17,6 +17,8 @@ class Settings(BaseSettings):
     LOG_ENCODING: str = "utf-8"
     LOG_FORMAT: str = "%(asctime)s - %(name)s:%(lineno)d - %(levelname)s - %(message)s"
 
+    COOKIE_MAX_AGE_SECONDS: int = 60 * 60
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
