@@ -20,11 +20,11 @@ class UserCrud(CrudBase[User, int]):
 
     async def get_permissions(self, user_id: int) -> list[str]:
         stmt = (
-            select(Menu.code)
+            select(Menu.permission)
             .select_from(Menu)
             .join(RoleMenu, RoleMenu.menu_id == Menu.id)
             .join(UserRole, UserRole.role_id == RoleMenu.role_id)
-            .where(UserRole.user_id == user_id)
+            .where(UserRole.user_id == user_id, Menu.permission.isnot(None), Menu.permission != '')
             .distinct()
         )
         result = await self.session.exec(stmt)
