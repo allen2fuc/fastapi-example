@@ -6,7 +6,7 @@ from typing import Any, Generic, Optional, Sequence, TypeVar
 from sqlmodel import SQLModel, func, select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from app.core.schemas import QueryPagination, QueryResult
+from .schemas import QueryPagination, QueryResult
 
 Model = TypeVar("Model", bound=SQLModel)
 ID = TypeVar("ID")
