@@ -1,0 +1,15 @@
+<header class="app-header">
+  <div class="app-header-brand">管理系统</div>
+  <div class="app-header-right">
+    {% set _email = request.session.get('user_email') %}
+    {% if _email %}
+    <button type="button" class="header-username" onclick="Drawer.open('change-pwd-drawer', '修改密码')">
+      {{ _email }}
+    </button>
+    <form action="/auth/logout" method="post" style="display:inline">
+      <input type="hidden" name="csrf_token" value="{{ request.session.get('csrf_token', '') }}">
+      <button type="submit" class="header-logout">退出</button>
+    </form>
+    {% endif %}
+  </div>
+</header>

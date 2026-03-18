@@ -1,0 +1,64 @@
+{% from "macros/drawer.jinja" import drawer with context %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}管理系统{% endblock %}</title>
+  <link rel="stylesheet" href="/static/css/admin.css">
+</head>
+<body>
+{% include "layout/header.jinja" %}
+<div class="page-container">
+  {% block content %}{% endblock %}
+</div>
+
+{# ── 修改密码抽屉（全局） ── #}
+{% call drawer("change-pwd-drawer", width="400px") %}
+<form id="change-pwd-form" class="drawer-form" onsubmit="submitChangePwd(event)">
+  <div class="form-item">
+    <label for="f-old-pwd">当前密码</label>
+    <input type="password" id="f-old-pwd" name="old_password" required autocomplete="current-password">
+  </div>
+  <div class="form-item">
+    <label for="f-new-pwd">新密码</label>
+    <input type="password" id="f-new-pwd" name="new_password" required autocomplete="new-password">
+  </div>
+  <div class="form-item">
+    <label for="f-confirm-pwd">确认新密码</label>
+    <input type="password" id="f-confirm-pwd" required autocomplete="new-password">
+  </div>
+  <div class="form-footer">
+    <button type="submit" class="btn-submit">保存</button>
+    <button type="button" class="btn-cancel" onclick="Drawer.close('change-pwd-drawer')">取消</button>
+  </div>
+</form>
+{% endcall %}
+
+<script>
+async function submitChangePwd(e) {
+  e.preventDefault();
+  const newPwd = document.getElementById('f-new-pwd').value;
+  const confirmPwd = document.getElementById('f-confirm-pwd').value;
+  if (newPwd !== confirmPwd) { alert('两次密码不一致'); return; }
+  const res = await fetch('/auth/change-password', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      old_password: document.getElementById('f-old-pwd').value,
+      new_password: newPwd,
+    }),
+  });
+  if (res.ok) {
+    alert('密码修改成功');
+    Drawer.close('change-pwd-drawer');
+    document.getElementById('change-pwd-form').reset();
+  } else {
+    const err = await res.json().catch(() => ({}));
+    alert(err.detail || '修改失败');
+  }
+}
+</script>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>

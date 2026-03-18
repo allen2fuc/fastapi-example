@@ -31,3 +31,6 @@ class Role(SQLModel, table=True):
     users: List["User"] = Relationship(back_populates="roles", link_model=UserRole, sa_relationship_kwargs={"passive_deletes": True})
 
     menus: List[Menu] = Relationship(back_populates="roles", link_model=RoleMenu, sa_relationship_kwargs={"passive_deletes": True})
+
+
+    # INSERT INTO sys_roles (id, name, description) VALUES (1, 'admin', '管理员');

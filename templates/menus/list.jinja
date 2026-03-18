@@ -1,0 +1,169 @@
+{% extends "layout/base.jinja" %}
+{% from "macros/list.jinja" import list_page with context %}
+{% from "macros/drawer.jinja" import drawer with context %}
+
+{% block title %}菜单列表{% endblock %}
+
+{% block content %}
+<h1 class="page-title">菜单列表</h1>
+
+{% set columns = [
+  {"label": "ID",     "field": "id"},
+  {"label": "菜单名称", "field": "name"},
+  {"label": "类型",    "field": "type_label"},
+  {"label": "权限标识", "field": "permission"},
+  {"label": "路径",    "field": "path"},
+  {"label": "排序",    "field": "sort"},
+  {"label": "可见",    "field": "visible", "badge": true},
+  {"label": "创建时间", "field": "created_at", "filter": "dt"}
+] %}
+
+{% set bulk_actions = [
+  {"label": "删除", "value": bulk_delete_url | default("/menus/bulk-delete"),
+   "permission": "sys:menu:delete", "confirm": "确定删除所选菜单？"}
+] %}
+
+{% set row_actions = [
+  {"label": "编辑", "js_action": "openEditDrawer", "permission": "sys:menu:edit"}
+] %}
+
+{% call list_page(columns, result.items, result,
+                  bulk_actions=bulk_actions,
+                  row_actions=row_actions,
+                  add_action="openAddDrawer()",
+                  add_permission="sys:menu:edit") %}
+  <label>菜单名称
+    <input type="text" name="name" value="{{ request.query_params.get('name', '') }}">
+  </label>
+  <label>类型
+    <select name="type">
+      <option value="">全部</option>
+      <option value="1" {{ 'selected' if request.query_params.get('type') == '1' }}>目录</option>
+      <option value="2" {{ 'selected' if request.query_params.get('type') == '2' }}>页面</option>
+      <option value="3" {{ 'selected' if request.query_params.get('type') == '3' }}>按钮</option>
+    </select>
+  </label>
+{% endcall %}
+
+{# ── 新增/编辑抽屉 ── #}
+{% call drawer("menu-drawer", width="520px") %}
+<form id="menu-drawer-form" class="drawer-form" onsubmit="submitMenuForm(event)">
+  <input type="hidden" id="menu-id" name="id" value="">
+
+  <div class="form-item">
+    <label for="f-name">菜单名称</label>
+    <input type="text" id="f-name" name="name" required>
+  </div>
+  <div class="form-item">
+    <label for="f-parent_id">父菜单ID <span style="color:#9ca3af;font-size:12px">（目录留空）</span></label>
+    <input type="number" id="f-parent_id" name="parent_id" min="1">
+  </div>
+  <div class="form-item">
+    <label for="f-type">类型</label>
+    <select id="f-type" name="type" required>
+      <option value="1">目录</option>
+      <option value="2">页面</option>
+      <option value="3">按钮</option>
+    </select>
+  </div>
+  <div class="form-item">
+    <label for="f-action_type">操作类型 <span style="color:#9ca3af;font-size:12px">（页面/目录留空）</span></label>
+    <select id="f-action_type" name="action_type">
+      <option value="">无</option>
+      <option value="1">批量按钮</option>
+      <option value="2">行按钮</option>
+      <option value="3">工具栏按钮</option>
+    </select>
+  </div>
+  <div class="form-item">
+    <label for="f-permission">权限标识</label>
+    <input type="text" id="f-permission" name="permission" placeholder="如 sys:user:list">
+  </div>
+  <div class="form-item">
+    <label for="f-path">路径</label>
+    <input type="text" id="f-path" name="path" placeholder="如 /users">
+  </div>
+  <div class="form-item">
+    <label for="f-icon">图标</label>
+    <input type="text" id="f-icon" name="icon" placeholder="图标名称">
+  </div>
+  <div class="form-item">
+    <label for="f-sort">排序</label>
+    <input type="number" id="f-sort" name="sort" value="0" required>
+  </div>
+  <div class="form-item">
+    <div class="checkbox-row">
+      <input type="checkbox" id="f-visible" name="visible" checked>
+      <label for="f-visible" style="margin:0">可见</label>
+    </div>
+  </div>
+  <div class="form-footer">
+    <button type="submit" class="btn-submit">保存</button>
+    <button type="button" class="btn-cancel" onclick="Drawer.close('menu-drawer')">取消</button>
+  </div>
+</form>
+{% endcall %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+const _MENU_DETAIL_BASE = '{{ menu_detail_base | default("/menus") }}';
+
+function openAddDrawer() {
+  document.getElementById('menu-drawer-form').reset();
+  document.getElementById('menu-id').value = '';
+  document.getElementById('f-sort').value = '0';
+  document.getElementById('f-visible').checked = true;
+  Drawer.open('menu-drawer', '新增菜单');
+}
+
+async function openEditDrawer(id) {
+  Drawer.open('menu-drawer', '编辑菜单');
+  const res = await fetch(`${_MENU_DETAIL_BASE}/${id}/detail`);
+  if (!res.ok) { alert('加载失败'); Drawer.close('menu-drawer'); return; }
+  const data = await res.json();
+  document.getElementById('menu-id').value = data.id;
+  document.getElementById('f-name').value = data.name;
+  document.getElementById('f-parent_id').value = data.parent_id ?? '';
+  document.getElementById('f-type').value = data.type;
+  document.getElementById('f-action_type').value = data.action_type ?? '';
+  document.getElementById('f-permission').value = data.permission ?? '';
+  document.getElementById('f-path').value = data.path ?? '';
+  document.getElementById('f-icon').value = data.icon ?? '';
+  document.getElementById('f-sort').value = data.sort;
+  document.getElementById('f-visible').checked = data.visible;
+}
+
+async function submitMenuForm(e) {
+  e.preventDefault();
+  const id = document.getElementById('menu-id').value;
+  const parentId = document.getElementById('f-parent_id').value;
+  const actionType = document.getElementById('f-action_type').value;
+  const body = {
+    name: document.getElementById('f-name').value,
+    parent_id: parentId ? parseInt(parentId) : null,
+    type: parseInt(document.getElementById('f-type').value),
+    action_type: actionType ? parseInt(actionType) : null,
+    permission: document.getElementById('f-permission').value || null,
+    path: document.getElementById('f-path').value || null,
+    icon: document.getElementById('f-icon').value || null,
+    sort: parseInt(document.getElementById('f-sort').value),
+    visible: document.getElementById('f-visible').checked,
+  };
+  const url = id ? `/menus/${id}` : '/menus';
+  const method = id ? 'PUT' : 'POST';
+  const res = await fetch(url, {
+    method,
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(body),
+  });
+  if (res.ok) {
+    Drawer.close('menu-drawer');
+    location.reload();
+  } else {
+    const err = await res.json().catch(() => ({}));
+    alert(err.detail || '保存失败');
+  }
+}
+</script>
+{% endblock %}

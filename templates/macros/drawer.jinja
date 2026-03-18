@@ -1,0 +1,51 @@
+{#
+  drawer(drawer_id="drawer", width="460px")
+
+  用法：
+    {% from "macros/drawer.jinja" import drawer with context %}
+    {% call drawer("user-drawer") %}
+      <form id="user-form"> ... </form>
+    {% endcall %}
+
+  JS API（全局）：
+    Drawer.open("user-drawer", "新增用户")
+    Drawer.close("user-drawer")
+#}
+
+{% macro drawer(drawer_id="drawer", width="460px") %}
+<div id="{{ drawer_id }}-overlay" class="drawer-overlay" onclick="Drawer.close('{{ drawer_id }}')"></div>
+<div id="{{ drawer_id }}" class="drawer" style="width:{{ width }}">
+  <div class="drawer-header">
+    <span id="{{ drawer_id }}-title" class="drawer-title"></span>
+    <button type="button" class="drawer-close" onclick="Drawer.close('{{ drawer_id }}')">&#x2715;</button>
+  </div>
+  <div class="drawer-body">
+    {{ caller() }}
+  </div>
+</div>
+
+<script>
+(function () {
+  if (window.Drawer) return;
+  window.Drawer = {
+    open(id, title) {
+      const el = document.getElementById(id);
+      const ov = document.getElementById(id + '-overlay');
+      if (!el) return;
+      if (title) document.getElementById(id + '-title').textContent = title;
+      el.classList.add('open');
+      ov.classList.add('open');
+      document.body.classList.add('drawer-lock');
+    },
+    close(id) {
+      const el = document.getElementById(id);
+      const ov = document.getElementById(id + '-overlay');
+      if (!el) return;
+      el.classList.remove('open');
+      ov.classList.remove('open');
+      document.body.classList.remove('drawer-lock');
+    }
+  };
+})();
+</script>
+{% endmacro %}

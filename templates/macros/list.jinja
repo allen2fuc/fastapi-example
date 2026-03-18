@@ -1,0 +1,198 @@
+{#
+  list_page(columns, rows, result, bulk_actions=[], row_actions=[], add_action=none)
+
+  columns: list of dicts
+    - label: str           列标题
+    - field: str           行数据字段名
+    - badge: bool          (可选) 渲染为 是/否 badge
+    - filter: str          (可选) 'dt' → 日期格式化
+    - link_url: str        (可选) 点击跳转前缀，拼 id_field 值
+    - link_id_field: str   (可选) 默认 "id"
+    - link_suffix: str     (可选) URL 后缀，默认 ""
+    - link_permission: str (可选) 有此权限才显示超链接
+
+  bulk_actions: list of dicts
+    - label: str           下拉选项文字
+    - value: str           提交到的 action URL
+    - permission: str      (可选) 无权限则不显示
+    - confirm: str         (可选) 确认提示语
+
+  row_actions: list of dicts
+    - label: str           按钮文字
+    - url: str             (可选) URL 前缀，导航跳转
+    - id_field: str        (可选) 默认 "id"
+    - suffix: str          (可选) URL 后缀，默认 ""
+    - js_action: str       (可选) JS 函数名，调用时传入行 id，优先于 url
+    - permission: str      (可选) 有此权限才显示
+
+  add_action: str          (可选) 点击"新增"按钮执行的 JS 语句，有值则在工具栏显示新增按钮
+    add_permission: str    (可选) 有此权限才显示新增按钮
+
+  result: QueryResult      total / page / page_size
+#}
+
+{% macro list_page(columns, rows, result, bulk_actions=[], row_actions=[], add_action=none, add_permission='') %}
+{% set has_bulk = bulk_actions | length > 0 %}
+{% set has_actions = row_actions | length > 0 %}
+{% set col_span = columns | length + (1 if has_bulk else 0) + (1 if has_actions else 0) %}
+{% set show_add = add_action and (not add_permission or has_permission(add_permission, request)) %}
+
+{# ── 查询条件 ── #}
+{% if caller is defined %}
+<form method="get" class="query-form">
+  {{ caller() }}
+  <button type="submit">搜索</button>
+  <a href="?">重置</a>
+</form>
+{% endif %}
+
+{# ── 工具栏 ── #}
+<div class="toolbar">
+  {% if show_add %}
+  <button type="button" class="btn-primary" onclick="{{ add_action }}">新增</button>
+  {% endif %}
+  {% if has_bulk %}
+  <select id="bulk-action-select" onchange="_bulkExec(this)">
+    <option value="">操作</option>
+    {% for action in bulk_actions %}
+      {% if not action.permission or has_permission(action.permission, request) %}
+      <option value="{{ action.value }}"
+              data-confirm="{{ action.confirm | default('确定执行此操作？') }}">{{ action.label }}</option>
+      {% endif %}
+    {% endfor %}
+  </select>
+  {% endif %}
+</div>
+
+{# ── 数据表格 ── #}
+<form id="list-form" method="post">
+  <input type="hidden" name="csrf_token" value="{{ request.session.get('csrf_token', '') }}">
+  <table>
+    <thead>
+      <tr>
+        {% if has_bulk %}
+        <th><input type="checkbox" id="select-all" onchange="_toggleAll(this)"></th>
+        {% endif %}
+        {% for col in columns %}
+        <th>{{ col.label }}</th>
+        {% endfor %}
+        {% if has_actions %}
+        <th>操作</th>
+        {% endif %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+      <tr>
+        {% if has_bulk %}
+        <td><input type="checkbox" name="ids" value="{{ row | attr('id') }}"></td>
+        {% endif %}
+
+        {% for col in columns %}
+        <td>
+          {% set val = row | attr(col.field) %}
+          {% set disp = val | dt if col.filter | default('') == 'dt' else (val if val is not none else '') %}
+          {% set link_url = col.link_url | default('') %}
+          {% set link_id = row | attr(col.link_id_field | default('id')) %}
+          {% set link_suffix = col.link_suffix | default('') %}
+          {% set link_perm = col.link_permission | default('') %}
+          {% if col.badge | default(false) %}
+            <span class="badge {{ 'badge-yes' if val else 'badge-no' }}">{{ '是' if val else '否' }}</span>
+          {% elif link_url and (not link_perm or has_permission(link_perm, request)) %}
+          <a href="{{ link_url }}{{ link_id }}{{ link_suffix }}">{{ disp }}</a>
+          {% else %}
+          {{ disp }}
+          {% endif %}
+        </td>
+        {% endfor %}
+
+        {% if has_actions %}
+        <td>
+          {% for action in row_actions %}
+            {% set act_perm = action.permission | default('') %}
+            {% if not act_perm or has_permission(act_perm, request) %}
+            {% set act_id = row | attr(action.id_field | default('id')) %}
+            {% if action.js_action | default('') %}
+            <a class="btn-action" href="#" onclick="{{ action.js_action }}({{ act_id }}); return false;">{{ action.label }}</a>
+            {% else %}
+            <a class="btn-action" href="{{ action.url | default('') }}{{ act_id }}{{ action.suffix | default('') }}">{{ action.label }}</a>
+            {% endif %}
+            {% endif %}
+          {% endfor %}
+        </td>
+        {% endif %}
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="{{ col_span }}">暂无数据</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</form>
+
+{# ── 分页 ── #}
+{% set total_pages = ((result.total - 1) // result.page_size + 1) if result.total > 0 else 1 %}
+<div class="pagination">
+  <span>共 {{ result.total }} 条</span>
+  {% if result.page > 1 %}
+  <a href="javascript:void(0)" onclick="_goPage({{ result.page - 1 }})">上一页</a>
+  {% endif %}
+  <span>第 {{ result.page }} / {{ total_pages }} 页</span>
+  {% if result.page < total_pages %}
+  <a href="javascript:void(0)" onclick="_goPage({{ result.page + 1 }})">下一页</a>
+  {% endif %}
+  <select class="page-size-select" onchange="_goPageSize(this.value)">
+    {% for size in [10, 20, 50, 100] %}
+    <option value="{{ size }}" {{ 'selected' if result.page_size == size }}>{{ size }} 条/页</option>
+    {% endfor %}
+  </select>
+</div>
+
+<script>
+(function () {
+  function _goPage(page) {
+    const params = new URLSearchParams(location.search);
+    params.set('page', page);
+    location.search = params.toString();
+  }
+
+  function _toggleAll(cb) {
+    document.querySelectorAll('#list-form input[name="ids"]')
+      .forEach(el => el.checked = cb.checked);
+  }
+
+  function _bulkExec(select) {
+    const action = select.value;
+    if (!action) return;
+    select.value = '';
+    const checked = [...document.querySelectorAll('#list-form input[name="ids"]:checked')];
+    if (!checked.length) { alert('请选择至少一条记录'); return; }
+    const opt = select.querySelector(`option[value="${action}"]`);
+    const msg = opt ? opt.dataset.confirm : '确定执行此操作？';
+    if (!confirm(msg)) return;
+    const form = document.getElementById('list-form');
+    form.action = action;
+    form.submit();
+  }
+
+  const _sel = document.getElementById('bulk-action-select');
+  if (_sel) {
+    const hasOpts = [..._sel.options].slice(1).some(o => !o.disabled);
+    if (!hasOpts) _sel.disabled = true;
+  }
+
+  function _goPageSize(size) {
+    const params = new URLSearchParams(location.search);
+    params.set('page_size', size);
+    params.set('page', 1);
+    location.search = params.toString();
+  }
+
+  window._goPage = _goPage;
+  window._goPageSize = _goPageSize;
+  window._toggleAll = _toggleAll;
+  window._bulkExec = _bulkExec;
+})();
+</script>
+{% endmacro %}

@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 import logging
 from typing import TypedDict
 from fastapi import FastAPI
+from fastapi.routing import APIRoute
 from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import AsyncEngine, async_sessionmaker
 from sqlmodel.ext.asyncio.session import AsyncSession
@@ -47,3 +48,17 @@ async def lifespan(app: FastAPI):
     await close_redis_client(redis)
 
     logger.info("Application Lifespan Ended")
+
+
+def use_route_names_as_operation_ids(app: FastAPI) -> None:
+    """
+    Simplify operation IDs so that generated API clients have simpler function
+    names.
+
+    Should be called only after all routes have been added.
+    """
+    for route in app.routes:
+        if isinstance(route, APIRoute):
+            logger.info(f"Route: {route.name} {route.path} {route.methods}")
+            print(f"Route: {route.name} {route.path} {route.methods}")
+            route.operation_id = route.name  # in this case, 'read_items'

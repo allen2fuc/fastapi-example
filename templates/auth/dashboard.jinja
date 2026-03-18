@@ -1,0 +1,21 @@
+{% extends "layout/base.jinja" %}
+
+{% block title %}控制台{% endblock %}
+
+{% block content %}
+<h1 class="page-title">控制台</h1>
+<div class="dashboard-grid">
+  <a href="/users" class="dashboard-card">
+    <div class="dashboard-card-icon">👤</div>
+    <div class="dashboard-card-label">用户管理</div>
+  </a>
+  <a href="/roles" class="dashboard-card">
+    <div class="dashboard-card-icon">🔑</div>
+    <div class="dashboard-card-label">角色管理</div>
+  </a>
+  <a href="/menus" class="dashboard-card">
+    <div class="dashboard-card-icon">📋</div>
+    <div class="dashboard-card-label">菜单管理</div>
+  </a>
+</div>
+{% endblock %}

@@ -1,0 +1,164 @@
+{% extends "layout/base.jinja" %}
+{% from "macros/list.jinja" import list_page with context %}
+{% from "macros/drawer.jinja" import drawer with context %}
+
+{% block title %}用户列表{% endblock %}
+
+{% block content %}
+<h1 class="page-title">用户列表</h1>
+
+{% set columns = [
+  {"label": "ID",     "field": "id"},
+  {"label": "邮箱",   "field": "email"},
+  {"label": "激活",      "field": "is_active",    "badge": true},
+  {"label": "超级用户",  "field": "is_superuser",  "badge": true},
+  {"label": "已验证",    "field": "is_verified",   "badge": true},
+  {"label": "创建时间",  "field": "created_at",    "filter": "dt"}
+] %}
+
+{% set bulk_actions = [
+  {"label": "删除", "value": bulk_delete_url | default("/users/bulk-delete"),
+   "permission": "sys:user:delete", "confirm": "确定删除所选用户？"}
+] %}
+
+{% set row_actions = [
+  {"label": "编辑", "js_action": "openEditDrawer", "permission": "sys:user:edit"}
+] %}
+
+{% call list_page(columns, result.items, result,
+                  bulk_actions=bulk_actions,
+                  row_actions=row_actions,
+                  add_action="openAddDrawer()",
+                  add_permission="sys:user:edit") %}
+  <label>邮箱
+    <input type="text" name="email" value="{{ request.query_params.get('email', '') }}">
+  </label>
+  <label>状态
+    <select name="is_active">
+      <option value="">全部</option>
+      <option value="1" {{ 'selected' if request.query_params.get('is_active') == '1' }}>激活</option>
+      <option value="0" {{ 'selected' if request.query_params.get('is_active') == '0' }}>未激活</option>
+    </select>
+  </label>
+{% endcall %}
+
+{# ── 新增/编辑抽屉 ── #}
+{% call drawer("user-drawer", width="480px") %}
+<form id="user-drawer-form" class="drawer-form" onsubmit="submitUserForm(event)">
+  <input type="hidden" id="user-id" name="id" value="">
+
+  <div class="form-item">
+    <label for="f-email">邮箱</label>
+    <input type="email" id="f-email" name="email" required>
+  </div>
+  <div class="form-item">
+    <label for="f-password">密码 <span id="f-password-hint" style="color:#9ca3af;font-size:12px"></span></label>
+    <input type="password" id="f-password" name="password" autocomplete="new-password">
+  </div>
+  <div class="form-item">
+    <div class="checkbox-row">
+      <input type="checkbox" id="f-is_active" name="is_active" checked>
+      <label for="f-is_active" style="margin:0">激活</label>
+    </div>
+  </div>
+  <div class="form-item">
+    <div class="checkbox-row">
+      <input type="checkbox" id="f-is_superuser" name="is_superuser">
+      <label for="f-is_superuser" style="margin:0">超级用户</label>
+    </div>
+  </div>
+  <div class="form-item">
+    <div class="checkbox-row">
+      <input type="checkbox" id="f-is_verified" name="is_verified">
+      <label for="f-is_verified" style="margin:0">已验证</label>
+    </div>
+  </div>
+  <div class="form-item">
+    <label>角色</label>
+    <div id="role-checkboxes" class="check-list">
+      <span style="color:#9ca3af;font-size:13px">加载中…</span>
+    </div>
+  </div>
+  <div class="form-footer">
+    <button type="submit" class="btn-submit">保存</button>
+    <button type="button" class="btn-cancel" onclick="Drawer.close('user-drawer')">取消</button>
+  </div>
+</form>
+{% endcall %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+const _USER_DETAIL_BASE = '{{ user_detail_base | default("/users") }}';
+const _ROLES_ALL_URL = '{{ roles_all_url | default("/roles/all") }}';
+
+async function _loadRoles(selectedIds = []) {
+  const res = await fetch(_ROLES_ALL_URL);
+  const roles = res.ok ? await res.json() : [];
+  document.getElementById('role-checkboxes').innerHTML = roles.length
+    ? roles.map(r => `
+        <label class="check-item">
+          <input type="checkbox" value="${r.id}" ${selectedIds.includes(r.id) ? 'checked' : ''}>
+          <span>${r.name}</span>
+        </label>`).join('')
+    : '<span style="color:#9ca3af;font-size:13px">暂无角色</span>';
+}
+
+function _getSelectedRoleIds() {
+  return [...document.querySelectorAll('#role-checkboxes input:checked')].map(c => parseInt(c.value));
+}
+
+function openAddDrawer() {
+  const form = document.getElementById('user-drawer-form');
+  form.reset();
+  document.getElementById('user-id').value = '';
+  document.getElementById('f-password').required = true;
+  document.getElementById('f-password-hint').textContent = '';
+  Drawer.open('user-drawer', '新增用户');
+  _loadRoles([]);
+}
+
+async function openEditDrawer(id) {
+  Drawer.open('user-drawer', '编辑用户');
+  const res = await fetch(`${_USER_DETAIL_BASE}/${id}/detail`);
+  if (!res.ok) { alert('加载失败'); Drawer.close('user-drawer'); return; }
+  const data = await res.json();
+  document.getElementById('user-id').value = data.id;
+  document.getElementById('f-email').value = data.email;
+  document.getElementById('f-password').value = '';
+  document.getElementById('f-password').required = false;
+  document.getElementById('f-password-hint').textContent = '不填则不修改';
+  document.getElementById('f-is_active').checked = data.is_active;
+  document.getElementById('f-is_superuser').checked = data.is_superuser;
+  document.getElementById('f-is_verified').checked = data.is_verified;
+  _loadRoles(data.role_ids || []);
+}
+
+async function submitUserForm(e) {
+  e.preventDefault();
+  const id = document.getElementById('user-id').value;
+  const body = {
+    email: document.getElementById('f-email').value,
+    password: document.getElementById('f-password').value || null,
+    is_active: document.getElementById('f-is_active').checked,
+    is_superuser: document.getElementById('f-is_superuser').checked,
+    is_verified: document.getElementById('f-is_verified').checked,
+    role_ids: _getSelectedRoleIds(),
+  };
+  const url = id ? `/users/${id}` : '/users';
+  const method = id ? 'PUT' : 'POST';
+  const res = await fetch(url, {
+    method,
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(body),
+  });
+  if (res.ok) {
+    Drawer.close('user-drawer');
+    location.reload();
+  } else {
+    const err = await res.json().catch(() => ({}));
+    alert(err.detail || '保存失败');
+  }
+}
+</script>
+{% endblock %}

@@ -62,3 +62,9 @@ class User(SQLModel, table=True):
     ))
 
     roles: List[Role] = Relationship(back_populates="users", link_model=UserRole, sa_relationship_kwargs={"passive_deletes": True})
+
+
+    # INSERT INTO sys_users (id, email, hashed_password, is_active, is_superuser, is_verified) VALUES 
+    # (1, 'admin@example.com', 'password', TRUE, TRUE, TRUE);
+
+    # INSERT INTO sys_user_roles (user_id, role_id) VALUES (1, 1);

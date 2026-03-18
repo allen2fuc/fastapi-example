@@ -1,0 +1,148 @@
+{% extends "layout/base.jinja" %}
+{% from "macros/list.jinja" import list_page with context %}
+{% from "macros/drawer.jinja" import drawer with context %}
+
+{% block title %}角色列表{% endblock %}
+
+{% block content %}
+<h1 class="page-title">角色列表</h1>
+
+{% set columns = [
+  {"label": "ID",     "field": "id"},
+  {"label": "角色名称", "field": "name"},
+  {"label": "描述",    "field": "description"},
+  {"label": "创建时间", "field": "created_at", "filter": "dt"}
+] %}
+
+{% set bulk_actions = [
+  {"label": "删除", "value": bulk_delete_url | default("/roles/bulk-delete"),
+   "permission": "sys:role:delete", "confirm": "确定删除所选角色？"}
+] %}
+
+{% set row_actions = [
+  {"label": "编辑", "js_action": "openEditDrawer", "permission": "sys:role:edit"}
+] %}
+
+{% call list_page(columns, result.items, result,
+                  bulk_actions=bulk_actions,
+                  row_actions=row_actions,
+                  add_action="openAddDrawer()",
+                  add_permission="sys:role:edit") %}
+  <label>角色名称
+    <input type="text" name="name" value="{{ request.query_params.get('name', '') }}">
+  </label>
+{% endcall %}
+
+{# ── 新增/编辑抽屉 ── #}
+{% call drawer("role-drawer", width="520px") %}
+<form id="role-drawer-form" class="drawer-form" onsubmit="submitRoleForm(event)">
+  <input type="hidden" id="role-id" name="id" value="">
+
+  <div class="form-item">
+    <label for="f-name">角色名称</label>
+    <input type="text" id="f-name" name="name" required>
+  </div>
+  <div class="form-item">
+    <label for="f-description">描述</label>
+    <input type="text" id="f-description" name="description" required>
+  </div>
+  <div class="form-item">
+    <label>菜单权限</label>
+    <div id="menu-tree" class="menu-tree">
+      <span style="color:#9ca3af;font-size:13px">加载中…</span>
+    </div>
+  </div>
+  <div class="form-footer">
+    <button type="submit" class="btn-submit">保存</button>
+    <button type="button" class="btn-cancel" onclick="Drawer.close('role-drawer')">取消</button>
+  </div>
+</form>
+{% endcall %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+const _ROLE_DETAIL_BASE = '{{ role_detail_base | default("/roles") }}';
+const _MENUS_TREE_URL = '{{ menus_tree_url | default("/menus/tree") }}';
+const _TYPE_LABEL = {1: '目录', 2: '页面', 3: '按钮'};
+
+async function _loadMenuTree(selectedIds = []) {
+  const res = await fetch(_MENUS_TREE_URL);
+  const tree = res.ok ? await res.json() : [];
+  document.getElementById('menu-tree').innerHTML = tree.length
+    ? _renderTree(tree, selectedIds)
+    : '<span style="color:#9ca3af;font-size:13px">暂无菜单</span>';
+}
+
+function _renderTree(nodes, selectedIds, level = 0) {
+  return nodes.map(node => {
+    const checked = selectedIds.includes(node.id) ? 'checked' : '';
+    const typeLabel = _TYPE_LABEL[node.type] || '';
+    const children = node.children && node.children.length
+      ? `<div class="tree-children">${_renderTree(node.children, selectedIds, level + 1)}</div>`
+      : '';
+    return `
+      <div class="tree-node" style="padding-left:${level * 16}px">
+        <label class="tree-label">
+          <input type="checkbox" value="${node.id}" ${checked} onchange="_syncChildren(this)">
+          <span class="tree-name">${node.name}</span>
+          <span class="tree-type">${typeLabel}</span>
+        </label>
+        ${children}
+      </div>`;
+  }).join('');
+}
+
+function _syncChildren(cb) {
+  const treeNode = cb.closest('.tree-node');
+  treeNode.querySelectorAll('.tree-children input[type="checkbox"]')
+    .forEach(c => c.checked = cb.checked);
+}
+
+function _getSelectedMenuIds() {
+  return [...document.querySelectorAll('#menu-tree input:checked')].map(c => parseInt(c.value));
+}
+
+function openAddDrawer() {
+  document.getElementById('role-drawer-form').reset();
+  document.getElementById('role-id').value = '';
+  Drawer.open('role-drawer', '新增角色');
+  _loadMenuTree([]);
+}
+
+async function openEditDrawer(id) {
+  Drawer.open('role-drawer', '编辑角色');
+  const res = await fetch(`${_ROLE_DETAIL_BASE}/${id}/detail`);
+  if (!res.ok) { alert('加载失败'); Drawer.close('role-drawer'); return; }
+  const data = await res.json();
+  document.getElementById('role-id').value = data.id;
+  document.getElementById('f-name').value = data.name;
+  document.getElementById('f-description').value = data.description;
+  _loadMenuTree(data.menu_ids || []);
+}
+
+async function submitRoleForm(e) {
+  e.preventDefault();
+  const id = document.getElementById('role-id').value;
+  const body = {
+    name: document.getElementById('f-name').value,
+    description: document.getElementById('f-description').value,
+    menu_ids: _getSelectedMenuIds(),
+  };
+  const url = id ? `/roles/${id}` : '/roles';
+  const method = id ? 'PUT' : 'POST';
+  const res = await fetch(url, {
+    method,
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(body),
+  });
+  if (res.ok) {
+    Drawer.close('role-drawer');
+    location.reload();
+  } else {
+    const err = await res.json().catch(() => ({}));
+    alert(err.detail || '保存失败');
+  }
+}
+</script>
+{% endblock %}

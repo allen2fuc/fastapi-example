@@ -9,7 +9,7 @@ T = TypeVar("T")
 
 class QueryPagination(BaseModel):
     page: Annotated[int, Field(ge=1, description="页码")] = 1
-    page_size: Annotated[int, Field(default=20, ge=1, description="每页条数")] = 20
+    page_size: Annotated[int, Field(default=10, ge=1, description="每页条数")] = 10
 
     def get_offset(self) -> int:
         return (self.page - 1) * self.page_size
