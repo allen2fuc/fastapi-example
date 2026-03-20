@@ -1,11 +1,25 @@
-from sqlmodel import select
+from sqlmodel import func, select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.core.crud import CrudBase
+from app.core.schemas import QueryResult
 from app.models.link_model import RoleMenu, UserRole
 from app.models.menu import Menu
 from app.models.role import Role
 from app.models.user import User
+from app.modules.user.schemas import UserQuery
+
+
+def _menu_to_dict(menu: Menu) -> dict:
+    return {
+        "id": menu.id,
+        "parent_id": menu.parent_id,
+        "name": menu.name,
+        "path": menu.path,
+        "icon": menu.icon,
+        "type": menu.type,
+        "sort": menu.sort,
+    }
 
 
 class UserCrud(CrudBase[User, int]):
@@ -34,6 +48,30 @@ class UserCrud(CrudBase[User, int]):
         result = await self.session.exec(stmt)
         return result.all()
 
+    async def get_accessible_menus(self, user: User) -> list[dict]:
+        if user.is_superuser:
+            stmt = (
+                select(Menu)
+                .where(Menu.visible == True, Menu.type.in_([1, 2]))
+                .order_by(Menu.sort.desc())
+            )
+        else:
+            stmt = (
+                select(Menu)
+                .select_from(Menu)
+                .join(RoleMenu, RoleMenu.menu_id == Menu.id)
+                .join(UserRole, UserRole.role_id == RoleMenu.role_id)
+                .where(
+                    UserRole.user_id == user.id,
+                    Menu.visible == True,
+                    Menu.type.in_([1, 2]),
+                )
+                .distinct()
+                .order_by(Menu.sort.desc())
+            )
+        result = await self.session.exec(stmt)
+        return [_menu_to_dict(m) for m in result.all()]
+
     async def set_roles(self, user: User, role_ids: list[int]) -> None:
         await self.session.refresh(user, ["roles"])
         roles = (
@@ -41,3 +79,14 @@ class UserCrud(CrudBase[User, int]):
         ).all() if role_ids else []
         user.roles = list(roles)
         await self.session.commit()
+
+
+    async def query(self, pagination: UserQuery) -> QueryResult[User]:
+        filters = []
+        if pagination.email:
+            filters.append(User.email.like(f"%{pagination.email}%"))
+        if pagination.get_is_active() is not None:
+            filters.append(User.is_active == pagination.get_is_active())
+
+
+        return await super().query(pagination, filters)

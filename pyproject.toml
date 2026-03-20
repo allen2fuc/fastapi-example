@@ -6,7 +6,6 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "alembic>=1.18.4",
-    "anthropic[aiohttp]>=0.84.0",
     "asyncpg>=0.31.0",
     "fastapi-mcp>=0.4.0",
     "fastapi[all]>=0.128.0",
@@ -18,5 +17,6 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "anthropic[aiohttp]>=0.85.0",
     "ruff>=0.15.6",
 ]

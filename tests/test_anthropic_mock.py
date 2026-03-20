@@ -9,6 +9,11 @@ from anthropic import (
 )
 from pydantic import BaseModel
 
+import logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s:%(lineno)d - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+logger = logging.getLogger(__name__)
+
+
 class ExitException(Exception):
     pass
 
@@ -155,13 +160,83 @@ def create_client():
 def sse(event: str, data: dict) -> str:
     return f"event: {event}\ndata: {json.dumps(data, ensure_ascii=False)}\n\n"
 
+def _normalize_content_block(block: Any) -> dict[str, Any] | None:
+    """
+    将 Anthropic SDK 返回的 content block 规范化为 API 允许的最小字段集合。
+    某些代理/实现会在 tool_use 上附带额外字段（例如 caller），会导致 400。
+    """
+    if block is None:
+        return None
+
+    if isinstance(block, dict):
+        b = block
+    else:
+        # pydantic / dataclass-ish objects from SDK
+        if hasattr(block, "model_dump"):
+            b = block.model_dump()
+        elif hasattr(block, "__dict__"):
+            b = dict(block.__dict__)
+        else:
+            return None
+
+    b_type = b.get("type")
+    if b_type == "text":
+        text = b.get("text")
+        if text is None:
+            return None
+        return {"type": "text", "text": text}
+
+    if b_type == "tool_use":
+        # keep only fields allowed by API schema
+        return {
+            "type": "tool_use",
+            "id": b.get("id"),
+            "name": b.get("name"),
+            "input": b.get("input", {}),
+        }
+
+    if b_type == "tool_result":
+        # if you later add tool execution, this keeps payload valid
+        out: dict[str, Any] = {"type": "tool_result", "tool_use_id": b.get("tool_use_id")}
+        if "content" in b:
+            out["content"] = b["content"]
+        if "is_error" in b:
+            out["is_error"] = b["is_error"]
+        return out
+
+    # ignore other/unknown block types to avoid schema errors
+    return None
+
+def _sanitize_messages(messages: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    sanitized: list[dict[str, Any]] = []
+    for m in messages:
+        role = m.get("role")
+        content = m.get("content")
+
+        if isinstance(content, str):
+            sanitized.append({"role": role, "content": content})
+            continue
+
+        if isinstance(content, list):
+            blocks: list[dict[str, Any]] = []
+            for blk in content:
+                nb = _normalize_content_block(blk)
+                if nb is not None:
+                    blocks.append(nb)
+            sanitized.append({"role": role, "content": blocks})
+            continue
+
+        # fallback: keep role with empty text to avoid crashing
+        sanitized.append({"role": role, "content": ""})
+    return sanitized
+
 async def run_claude(client: AsyncAnthropic, messages: list[dict[str, Any]]):
     tool_calls = []      # 工具调用列表
     current_tool = None  # 正在构建的工具调用
     async with client.messages.stream(
         model="claude-3-haiku-20240307",
         system=SYSTEM,
-        messages=messages,
+        messages=_sanitize_messages(messages),
         tools=TOOLS,
         temperature=0.7,
         max_tokens=2048,
@@ -183,7 +258,13 @@ async def run_claude(client: AsyncAnthropic, messages: list[dict[str, Any]]):
                     current_tool = None
 
         final = await stream.get_final_message()
-        messages.append({"role": "assistant", "content": final.content})
+        # 将 final.content 规范化后再写回 messages，避免 tool_use 出现 caller 等额外字段
+        normalized_blocks: list[dict[str, Any]] = []
+        for blk in getattr(final, "content", []) or []:
+            nb = _normalize_content_block(blk)
+            if nb is not None:
+                normalized_blocks.append(nb)
+        messages.append({"role": "assistant", "content": normalized_blocks})
 
     if tool_calls:
         for tc in tool_calls:
@@ -236,7 +317,7 @@ async def main():
             break
         except Exception as e:
             print("Error: ", e)
-            continue
+            logger.exception(e)
 
 
 if __name__ == "__main__":

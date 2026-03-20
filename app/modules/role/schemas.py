@@ -2,6 +2,8 @@ from datetime import datetime
 from typing import Annotated
 from pydantic import BaseModel, Field
 
+from app.core.schemas import QueryPagination
+
 
 class RoleBase(BaseModel):
     name: Annotated[str, Field(description="角色名称")]
@@ -22,3 +24,7 @@ class RoleUpdate(BaseModel):
     name: Annotated[str | None, Field(description="角色名称")] = None
     description: Annotated[str | None, Field(description="角色描述")] = None
     menu_ids: Annotated[list[int] | None, Field(description="菜单ID列表")] = None
+
+
+class RoleQuery(QueryPagination):
+    name: Annotated[str | None, Field(description="角色名称")] = None

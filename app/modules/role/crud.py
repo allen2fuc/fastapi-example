@@ -1,10 +1,12 @@
-from sqlmodel import select
+from sqlmodel import func, select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.core.crud import CrudBase
+from app.core.schemas import QueryResult
 from app.models.link_model import RoleMenu
 from app.models.menu import Menu
 from app.models.role import Role
+from app.modules.role.schemas import RoleQuery
 
 
 class RoleCrud(CrudBase[Role, int]):
@@ -23,3 +25,10 @@ class RoleCrud(CrudBase[Role, int]):
         ).all() if menu_ids else []
         role.menus = list(menus)
         await self.session.commit()
+
+    async def query(self, pagination: RoleQuery) -> QueryResult[Role]:
+        filters = []
+        if pagination.name:
+            filters.append(Role.name.like(f"%{pagination.name}%"))
+
+        return await super().query(pagination, filters)

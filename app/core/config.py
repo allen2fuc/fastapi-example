@@ -33,6 +33,9 @@ class Settings(BaseSettings):
 
     COOKIE_MAX_AGE_SECONDS: int = 60 * 60
 
+    DEFAULT_USER_NAME: str = "admin@example.com"
+    DEFAULT_USER_PASSWORD: str = "admin"
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",

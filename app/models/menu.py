@@ -28,7 +28,7 @@ class Menu(SQLModel, table=True):
 
     children: List["Menu"] = Relationship(back_populates="parent", sa_relationship_kwargs={"passive_deletes": True})
 
-    parent: Optional["Menu"] = Relationship(back_populates="children")
+    parent: Optional["Menu"] = Relationship(back_populates="children", sa_relationship_kwargs={"remote_side": "Menu.id"})
 
     roles: List["Role"] = Relationship(back_populates="menus", link_model=RoleMenu, sa_relationship_kwargs={"passive_deletes": True})
 

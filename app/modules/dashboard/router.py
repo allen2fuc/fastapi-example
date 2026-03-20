@@ -10,6 +10,10 @@ router = APIRouter()
 @router.get("")
 async def dashboard(
     request: Request,
-    _current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_user),
 ):
-    return render_template(request, "auth/dashboard.jinja", {})
+    menus = request.session.get("menus", [])
+    return render_template(request, "auth/dashboard.jinja", {
+        "menus": menus,
+        "current_user": current_user,
+    })

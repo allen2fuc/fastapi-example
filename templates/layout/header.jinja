@@ -1,5 +1,5 @@
 <header class="app-header">
-  <div class="app-header-brand">管理系统</div>
+  <a class="app-header-brand" href="/dashboard">管理系统</a>
   <div class="app-header-right">
     {% set _email = request.session.get('user_email') %}
     {% if _email %}

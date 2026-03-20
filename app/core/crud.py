@@ -43,15 +43,17 @@ class CrudBase(Generic[Model, ID]):
         await self.session.commit()
 
 
-    async def query(self, pagination: QueryPagination) -> QueryResult[Model]:
-
+    async def query(self, pagination: QueryPagination, filters: list[Any] | None = None) -> QueryResult[Model]:
+        if filters is None:
+            filters = []
+            
         offset = pagination.get_offset()
         limit = pagination.get_limit()
 
         query_stmt = select(self.model)
-        total_stmt = select(func.count()).select_from(self.model)
+        total_stmt = select(func.count()).select_from(self.model).where(*filters)
 
-        query_stmt = query_stmt.offset(offset).limit(limit)
+        query_stmt = query_stmt.where(*filters).order_by(self.model.created_at.desc()).offset(offset).limit(limit)
         query_result = await self.session.exec(query_stmt)
         results = query_result.all()
 

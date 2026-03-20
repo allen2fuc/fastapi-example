@@ -9,7 +9,7 @@ from app.core.schemas import QueryPagination, QueryResult
 from app.core.security import get_current_user, get_password_hash
 from app.models.user import User
 from app.modules.user.crud import UserCrud
-from app.modules.user.schemas import UserCreate, UserUpdate
+from app.modules.user.schemas import UserCreate, UserQuery, UserUpdate
 
 router = APIRouter()
 
@@ -129,7 +129,7 @@ async def update_user(
 @router.get("")
 async def list_users(
     request: Request,
-    pagination: QueryPagination = Depends(),
+    pagination: UserQuery = Depends(),
     _current_user: User = Security(get_current_user, scopes=["sys:user:list"]),
     user_crud: UserCrud = Depends(get_user_crud),
 ):

@@ -2,6 +2,8 @@ from datetime import datetime
 from typing import Annotated
 from pydantic import BaseModel, Field
 
+from app.core.schemas import QueryPagination
+
 
 class MenuBase(BaseModel):
     name: Annotated[str, Field(description="菜单名称")]
@@ -35,3 +37,14 @@ class MenuUpdate(BaseModel):
     action_type: Annotated[int | None, Field(description="操作类型")] = None
     sort: Annotated[int | None, Field(description="菜单排序")] = None
     visible: Annotated[bool | None, Field(description="是否可见")] = None
+
+
+class MenuQuery(QueryPagination):
+    name: Annotated[str | None, Field(description="菜单名称")] = None
+    type: Annotated[str | None, Field(description="菜单类型")] = None
+    
+    def get_type(self) -> int | None:
+        if self.type:
+            if self.type.isdigit():
+                return int(self.type)
+        return None

@@ -9,7 +9,7 @@ from app.core.schemas import QueryPagination, QueryResult
 from app.core.security import get_current_user
 from app.models.user import User
 from app.modules.menu.crud import MenuCrud
-from app.modules.menu.schemas import MenuCreate, MenuUpdate
+from app.modules.menu.schemas import MenuCreate, MenuQuery, MenuUpdate
 
 router = APIRouter()
 
@@ -178,7 +178,7 @@ async def update_menu(
 @router.get("")
 async def list_menus(
     request: Request,
-    pagination: QueryPagination = Depends(),
+    pagination: MenuQuery = Depends(),
     _current_user: User = Security(get_current_user, scopes=["sys:menu:list"]),
     menu_crud: MenuCrud = Depends(get_menu_crud),
 ):

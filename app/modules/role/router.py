@@ -10,7 +10,7 @@ from app.core.security import get_current_user
 from app.models.user import User
 from app.modules.menu.crud import MenuCrud
 from app.modules.role.crud import RoleCrud
-from app.modules.role.schemas import RoleCreate, RoleUpdate
+from app.modules.role.schemas import RoleCreate, RoleQuery, RoleUpdate
 
 router = APIRouter()
 
@@ -136,7 +136,7 @@ async def update_role(
 @router.get("")
 async def list_roles(
     request: Request,
-    pagination: QueryPagination = Depends(),
+    pagination: RoleQuery = Depends(),
     _current_user: User = Security(get_current_user, scopes=["sys:role:list"]),
     role_crud: RoleCrud = Depends(get_role_crud),
 ):

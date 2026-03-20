@@ -7,6 +7,8 @@ from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import AsyncEngine, async_sessionmaker
 from sqlmodel.ext.asyncio.session import AsyncSession
 
+from app.services.user_services import create_default_user
+
 from .database import (
     close_database, 
     setup_database,
@@ -35,6 +37,9 @@ async def lifespan(app: FastAPI):
 
     # 初始化数据库
     engine, session_factory = await setup_database()
+
+    async with session_factory() as session:
+        await create_default_user(session)
 
     # 初始化 Redis
     redis = await get_redis_client()

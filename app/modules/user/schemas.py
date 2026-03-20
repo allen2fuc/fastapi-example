@@ -2,6 +2,8 @@ from datetime import datetime
 from typing import Annotated
 from pydantic import BaseModel, EmailStr, Field, SecretStr
 
+from app.core.schemas import QueryPagination
+
 
 class UserBase(BaseModel):
     email: Annotated[EmailStr, Field(description="邮箱")]
@@ -28,3 +30,14 @@ class UserUpdate(BaseModel):
     is_superuser: Annotated[bool | None, Field(description="是否超级用户")] = None
     is_verified: Annotated[bool | None, Field(description="是否验证")] = None
     role_ids: Annotated[list[int] | None, Field(description="角色ID列表")] = None
+
+
+class UserQuery(QueryPagination):
+    email: Annotated[str | None, Field(description="邮箱")] = None
+    is_active: Annotated[str | None, Field(description="是否激活")] = None
+
+    def get_is_active(self) -> bool | None:
+        if self.is_active:
+            return self.is_active == "1"
+        return None
+            

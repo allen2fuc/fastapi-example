@@ -34,10 +34,8 @@ async def get_current_user(
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
 
-    if security_scopes.scopes:
+    if security_scopes.scopes and not user.is_superuser:
         permissions = await user_crud.get_permissions(user.id)
-
-        # 计算permissions的权限是否满足security_scopes.scopes
         for scope in security_scopes.scopes:
             if scope not in permissions:
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)

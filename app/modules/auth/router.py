@@ -90,6 +90,8 @@ async def login(
 
     request.session[USER_ID_KEY] = user.id
     request.session["user_email"] = user.email
+    request.session["is_superuser"] = user.is_superuser
+    request.session["menus"] = await user_crud.get_accessible_menus(user)
     return RedirectResponse(url="/dashboard", status_code=303)
 
 
