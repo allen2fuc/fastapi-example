@@ -10,6 +10,7 @@ from app.modules.role.router import router as role_router
 from app.modules.menu.router import router as menu_router
 from app.modules.auth.router import router as auth_router
 from app.modules.dashboard.router import router as dashboard_router
+from app.modules.config.router import router as config_router
 from fastapi_mcp import FastApiMCP
 
 
@@ -40,6 +41,7 @@ def create_app() -> FastAPI:
     app.include_router(user_router, prefix="/users", tags=["users"])
     app.include_router(role_router, prefix="/roles", tags=["roles"])
     app.include_router(menu_router, prefix="/menus", tags=["menus"])
+    app.include_router(config_router, prefix="/configs", tags=["configs"])
 
     use_route_names_as_operation_ids(app)
 

@@ -65,6 +65,7 @@
 </div>
 
 {# ── 数据表格 ── #}
+<div class="table-wrap">
 <form id="list-form" method="post">
   <input type="hidden" name="csrf_token" value="{{ request.session.get('csrf_token', '') }}">
   <table>
@@ -74,10 +75,10 @@
         <th><input type="checkbox" id="select-all" onchange="_toggleAll(this)"></th>
         {% endif %}
         {% for col in columns %}
-        <th>{{ col.label }}</th>
+        <th{% if col.width | default('') %} style="width:{{ col.width }}; max-width:{{ col.width }};"{% endif %}>{{ col.label }}</th>
         {% endfor %}
         {% if has_actions %}
-        <th>操作</th>
+        <th style="width:80px">操作</th>
         {% endif %}
       </tr>
     </thead>
@@ -92,6 +93,7 @@
         <td>
           {% set val = row | attr(col.field) %}
           {% set disp = val | dt if col.filter | default('') == 'dt' else (val if val is not none else '') %}
+          {% set disp = disp | truncate(col.truncate, false, '…') if col.truncate | default(0) else disp %}
           {% set link_url = col.link_url | default('') %}
           {% set link_id = row | attr(col.link_id_field | default('id')) %}
           {% set link_suffix = col.link_suffix | default('') %}
@@ -130,6 +132,7 @@
     </tbody>
   </table>
 </form>
+</div>
 
 {# ── 分页 ── #}
 {% set total_pages = ((result.total - 1) // result.page_size + 1) if result.total > 0 else 1 %}

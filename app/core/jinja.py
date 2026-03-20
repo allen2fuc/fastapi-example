@@ -6,10 +6,9 @@ from app.core.config import settings
 templates = Jinja2Templates(directory=settings.TEMPLATES_DIR)
 
 def has_permission(permission: str, request: Request) -> bool:
-    if hasattr(request.state, "scopes"):
-        perms = request.state.scopes
-    else:
-        perms = []
+    if request.session.get("is_superuser"):
+        return True
+    perms = request.session.get("permissions", [])
     return permission in perms
 
 templates.env.globals["has_permission"] = has_permission

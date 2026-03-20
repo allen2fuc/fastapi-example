@@ -107,11 +107,19 @@ body {
 /* ── 表格 ── */
 #list-form table {
   width: 100%;
+  min-width: 600px;
+  table-layout: fixed;
   border-collapse: collapse;
   background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 6px;
   overflow: hidden;
+}
+
+#list-form td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 #list-form thead th {
@@ -500,12 +508,27 @@ body.drawer-lock { overflow: hidden; }
   flex: 1;
 }
 
+.captcha-img-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
 .captcha-img {
   height: 36px;
   border: 1px solid #e5e7eb;
   border-radius: 4px;
   cursor: pointer;
-  flex-shrink: 0;
+  display: block;
+}
+
+.captcha-countdown {
+  font-size: 11px;
+  color: #9ca3af;
+  line-height: 1;
+  min-height: 14px;
 }
 
 .btn-login {
@@ -612,3 +635,103 @@ body.drawer-lock { overflow: hidden; }
 }
 
 .tree-children { padding-left: 18px; }
+
+/* ── 登录页记住我 ── */
+.form-item-inline {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #374151;
+  cursor: pointer;
+}
+
+/* ── 表格横向滚动容器 ── */
+.table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── 响应式（≤ 640px） ── */
+@media (max-width: 640px) {
+  .page-container {
+    padding: 0 12px;
+    margin: 12px auto;
+  }
+
+  .app-header {
+    padding: 0 12px;
+  }
+
+  .app-header-brand {
+    font-size: 14px;
+  }
+
+  .header-username {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* 查询条件：每项占满宽度 */
+  .query-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .query-form label {
+    width: 100%;
+  }
+
+  .query-form input,
+  .query-form select {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .query-form button,
+  .query-form a {
+    align-self: stretch;
+    justify-content: center;
+  }
+
+  /* 工具栏 */
+  .toolbar {
+    flex-wrap: wrap;
+  }
+
+  /* 分页 */
+  .pagination {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .page-size-select {
+    margin-left: 0;
+  }
+
+  /* 抽屉：手机全宽 */
+  .drawer {
+    width: 100% !important;
+  }
+
+  /* 登录卡片 */
+  .login-card {
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    padding: 32px 20px;
+    min-height: 100vh;
+  }
+
+  /* Dashboard 卡片：两列 */
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

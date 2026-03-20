@@ -7,6 +7,7 @@ from pydantic import BaseModel
 
 from app.core.dept import get_user_crud
 from app.core.jinja import render_template
+from app.core.middleware import _REMEMBER_COOKIE, _REMEMBER_MAX_AGE, make_remember_token
 from app.core.security import USER_ID_KEY, get_current_user, get_password_hash, verify_password
 from app.models.user import User
 from app.modules.user.crud import UserCrud
@@ -52,8 +53,10 @@ def _make_captcha_svg(code: str) -> str:
 
 @router.get("/captcha")
 async def captcha(request: Request):
+    import time
     code = "".join(random.choices(string.ascii_uppercase + string.digits, k=5))
     request.session[_CAPTCHA_KEY] = code.upper()
+    request.session[_CAPTCHA_KEY + "_at"] = int(time.time())
     svg = _make_captcha_svg(code)
     return Response(content=svg, media_type="image/svg+xml",
                     headers={"Cache-Control": "no-store"})
@@ -72,12 +75,18 @@ async def login(
     email: str = Form(...),
     password: str = Form(...),
     captcha_input: str = Form(...),
+    remember_me: str = Form(""),
     user_crud: UserCrud = Depends(get_user_crud),
 ):
+    import time
     expected = request.session.pop(_CAPTCHA_KEY, "")
-    if captcha_input.upper() != expected:
+    generated_at = request.session.pop(_CAPTCHA_KEY + "_at", 0)
+    if not expected or captcha_input.upper() != expected:
         return render_template(request, "auth/login.jinja",
                                {"error": "验证码错误"}, status_code=400)
+    if int(time.time()) - generated_at > 60:
+        return render_template(request, "auth/login.jinja",
+                               {"error": "验证码已过期，请刷新"}, status_code=400)
 
     user = await user_crud.get_by_email(email)
     if not user or not verify_password(password, user.hashed_password):
@@ -91,17 +100,28 @@ async def login(
     request.session[USER_ID_KEY] = user.id
     request.session["user_email"] = user.email
     request.session["is_superuser"] = user.is_superuser
-    request.session["menus"] = await user_crud.get_accessible_menus(user)
-    return RedirectResponse(url="/dashboard", status_code=303)
+    if not user.is_superuser:
+        request.session["permissions"] = await user_crud.get_permissions(user.id)
+    redirect = RedirectResponse(url="/dashboard", status_code=303)
+    if remember_me:
+        redirect.set_cookie(
+            _REMEMBER_COOKIE,
+            make_remember_token(user.id),
+            max_age=_REMEMBER_MAX_AGE,
+            httponly=True,
+            samesite="lax",
+        )
+    return redirect
 
 
 # ── 退出 ────────────────────────────────────────────────────────────────────
 
 @router.post("/logout")
 async def logout(request: Request):
-    request.session.pop(USER_ID_KEY, None)
-    request.session.pop("user_email", None)
-    return RedirectResponse(url="/auth/login", status_code=303)
+    request.session.clear()
+    response = RedirectResponse(url="/auth/login", status_code=303)
+    response.delete_cookie(_REMEMBER_COOKIE)
+    return response
 
 
 # ── 修改密码（需要已登录，不需要特定权限） ──────────────────────────────────

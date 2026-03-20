@@ -8,12 +8,12 @@
 <h1 class="page-title">用户列表</h1>
 
 {% set columns = [
-  {"label": "ID",     "field": "id"},
-  {"label": "邮箱",   "field": "email"},
-  {"label": "激活",      "field": "is_active",    "badge": true},
-  {"label": "超级用户",  "field": "is_superuser",  "badge": true},
-  {"label": "已验证",    "field": "is_verified",   "badge": true},
-  {"label": "创建时间",  "field": "created_at",    "filter": "dt"}
+  {"label": "ID",     "field": "id", "width": "80px"},
+  {"label": "邮箱",   "field": "email", "width": "180px"},
+  {"label": "激活",      "field": "is_active",    "badge": true, "width": "80px"},
+  {"label": "超级用户",  "field": "is_superuser",  "badge": true, "width": "80px"},
+  {"label": "已验证",    "field": "is_verified",   "badge": true, "width": "80px"},
+  {"label": "创建时间",  "field": "created_at",    "filter": "dt", "width": "180px"}
 ] %}
 
 {% set bulk_actions = [

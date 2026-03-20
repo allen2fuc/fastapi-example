@@ -8,6 +8,10 @@ from sqlmodel import SQLModel
 
 from app.core.config import settings
 from app.models.user import User
+from app.models.menu import Menu
+from app.models.role import Role
+from app.models.link_model import UserRole, RoleMenu
+from app.models.config import Config
 
 # Import all domain models here for autogenerate support
 # from app.{domain}.models import *

@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>登录</title>
   <link rel="stylesheet" href="/static/css/admin.css">
 </head>
@@ -29,18 +30,50 @@
       <div class="captcha-row">
         <input type="text" id="captcha_input" name="captcha_input" required
                placeholder="请输入验证码" maxlength="5" autocomplete="off">
-        <img id="captcha-img" src="/auth/captcha" alt="验证码"
-             class="captcha-img" onclick="refreshCaptcha()" title="点击刷新">
+        <div class="captcha-img-wrap">
+          <img id="captcha-img" src="/auth/captcha" alt="验证码"
+               class="captcha-img" onclick="refreshCaptcha()" title="点击刷新">
+          <span id="captcha-countdown" class="captcha-countdown"></span>
+        </div>
       </div>
+    </div>
+    <div class="form-item form-item-inline">
+      <label class="checkbox-label">
+        <input type="checkbox" name="remember_me" value="1">
+        记住我
+      </label>
     </div>
     <button type="submit" class="btn-login">登 录</button>
   </form>
 </div>
 
 <script>
+let _captchaTimer = null;
+
 function refreshCaptcha() {
   document.getElementById('captcha-img').src = '/auth/captcha?t=' + Date.now();
+  document.getElementById('captcha_input').value = '';
+  startCountdown();
 }
+
+function startCountdown() {
+  clearInterval(_captchaTimer);
+  let remaining = 60;
+  const el = document.getElementById('captcha-countdown');
+  el.textContent = remaining + 's';
+  _captchaTimer = setInterval(() => {
+    remaining--;
+    if (remaining <= 0) {
+      clearInterval(_captchaTimer);
+      el.textContent = '';
+      refreshCaptcha();
+    } else {
+      el.textContent = remaining + 's';
+    }
+  }, 1000);
+}
+
+startCountdown();
 </script>
 </body>
 </html>

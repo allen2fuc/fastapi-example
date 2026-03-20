@@ -1,0 +1,134 @@
+{% extends "layout/base.jinja" %}
+{% from "macros/list.jinja" import list_page with context %}
+{% from "macros/drawer.jinja" import drawer with context %}
+
+{% block title %}配置列表{% endblock %}
+
+{% block content %}
+<h1 class="page-title">配置列表</h1>
+
+{% set columns = [
+  {"label": "ID",     "field": "id"},
+  {"label": "编码",   "field": "code"},
+  {"label": "键",     "field": "key"},
+  {"label": "值",     "field": "value"},
+  {"label": "排序",   "field": "sort"},
+  {"label": "描述",   "field": "description", "truncate": 30},
+  {"label": "创建时间", "field": "created_at", "filter": "dt"}
+] %}
+
+{% set bulk_actions = [
+  {"label": "删除", "value": "/configs/bulk-delete",
+   "permission": "sys:config:delete", "confirm": "确定删除所选配置？"}
+] %}
+
+{% set row_actions = [
+  {"label": "编辑",  "js_action": "openEditDrawer",  "permission": "sys:config:edit"}
+] %}
+
+{% call list_page(columns, result.items, result,
+                  bulk_actions=bulk_actions,
+                  row_actions=row_actions,
+                  add_action="openAddDrawer()",
+                  add_permission="sys:config:edit") %}
+  <label>编码
+    <input type="text" name="code" value="{{ request.query_params.get('code', '') }}">
+  </label>
+  <label>键
+    <input type="text" name="key" value="{{ request.query_params.get('key', '') }}">
+  </label>
+{% endcall %}
+
+{# ── 新增/编辑抽屉 ── #}
+{% call drawer("config-drawer", width="480px") %}
+<form id="config-drawer-form" class="drawer-form" onsubmit="submitConfigForm(event)">
+  <input type="hidden" id="config-id" name="id" value="">
+
+  <div class="form-item">
+    <label for="f-code">配置编码</label>
+    <input type="text" id="f-code" name="code" required placeholder="如 sys_notify">
+  </div>
+  <div class="form-item">
+    <label for="f-key">配置键</label>
+    <input type="text" id="f-key" name="key" required placeholder="如 email_host">
+  </div>
+  <div class="form-item">
+    <label for="f-value">配置值</label>
+    <input type="text" id="f-value" name="value" required>
+  </div>
+  <div class="form-item">
+    <label for="f-sort">排序</label>
+    <input type="number" id="f-sort" name="sort" value="0" required>
+  </div>
+  <div class="form-item">
+    <label for="f-description">描述</label>
+    <input type="text" id="f-description" name="description" placeholder="可选">
+  </div>
+  <div class="form-footer">
+    <button type="submit" class="btn-submit">保存</button>
+    <button type="button" class="btn-cancel" onclick="Drawer.close('config-drawer')">取消</button>
+  </div>
+</form>
+{% endcall %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+function openAddDrawer() {
+  document.getElementById('config-drawer-form').reset();
+  document.getElementById('config-id').value = '';
+  document.getElementById('f-sort').value = '0';
+  Drawer.open('config-drawer', '新增配置');
+}
+
+async function openEditDrawer(id) {
+  Drawer.open('config-drawer', '编辑配置');
+  const res = await fetch(`/configs/${id}/detail`);
+  if (!res.ok) { alert('加载失败'); Drawer.close('config-drawer'); return; }
+  const data = await res.json();
+  document.getElementById('config-id').value = data.id;
+  document.getElementById('f-code').value = data.code;
+  document.getElementById('f-key').value = data.key;
+  document.getElementById('f-value').value = data.value;
+  document.getElementById('f-sort').value = data.sort;
+  document.getElementById('f-description').value = data.description ?? '';
+}
+
+async function submitConfigForm(e) {
+  e.preventDefault();
+  const id = document.getElementById('config-id').value;
+  const body = {
+    code:        document.getElementById('f-code').value,
+    key:         document.getElementById('f-key').value,
+    value:       document.getElementById('f-value').value,
+    sort:        parseInt(document.getElementById('f-sort').value),
+    description: document.getElementById('f-description').value || null,
+  };
+  const url = id ? `/configs/${id}` : '/configs';
+  const method = id ? 'PUT' : 'POST';
+  const res = await fetch(url, {
+    method,
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(body),
+  });
+  if (res.ok) {
+    Drawer.close('config-drawer');
+    location.reload();
+  } else {
+    const err = await res.json().catch(() => ({}));
+    alert(err.detail || '保存失败');
+  }
+}
+
+async function deleteConfig(id) {
+  if (!confirm('确定删除该配置？')) return;
+  const res = await fetch(`/configs/${id}`, { method: 'DELETE' });
+  if (res.ok) {
+    location.reload();
+  } else {
+    const err = await res.json().catch(() => ({}));
+    alert(err.detail || '删除失败');
+  }
+}
+</script>
+{% endblock %}
