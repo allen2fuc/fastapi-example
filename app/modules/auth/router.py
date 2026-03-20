@@ -4,10 +4,12 @@ import string
 from fastapi import APIRouter, Depends, Form, Request
 from fastapi.responses import HTMLResponse, RedirectResponse, Response
 from pydantic import BaseModel
+from redis.asyncio import Redis
 
 from app.core.dept import get_user_crud
 from app.core.jinja import render_template
 from app.core.middleware import _REMEMBER_COOKIE, _REMEMBER_MAX_AGE, make_remember_token
+from app.core.redis import get_redis, rate_limit, rate_limit_incr, rate_limit_reset
 from app.core.security import USER_ID_KEY, get_current_user, get_password_hash, verify_password
 from app.models.user import User
 from app.modules.user.crud import UserCrud
@@ -69,7 +71,7 @@ async def login_page(request: Request):
     return render_template(request, "auth/login.jinja", {})
 
 
-@router.post("/login")
+@router.post("/login", dependencies=[rate_limit(max_attempts=5, window=60, key_prefix="login")])
 async def login(
     request: Request,
     email: str = Form(...),
@@ -77,11 +79,13 @@ async def login(
     captcha_input: str = Form(...),
     remember_me: str = Form(""),
     user_crud: UserCrud = Depends(get_user_crud),
+    redis: Redis = Depends(get_redis),
 ):
     import time
     expected = request.session.pop(_CAPTCHA_KEY, "")
     generated_at = request.session.pop(_CAPTCHA_KEY + "_at", 0)
     if not expected or captcha_input.upper() != expected:
+        await rate_limit_incr(request, redis)
         return render_template(request, "auth/login.jinja",
                                {"error": "验证码错误"}, status_code=400)
     if int(time.time()) - generated_at > 60:
@@ -90,12 +94,18 @@ async def login(
 
     user = await user_crud.get_by_email(email)
     if not user or not verify_password(password, user.hashed_password):
+        await rate_limit_incr(request, redis)
+        attempts = int(await redis.get(request.state.rate_limit_key) or 0)
+        remaining = max(5 - attempts, 0)
+        hint = f"，还剩 {remaining} 次机会" if remaining > 0 else "，账号已被临时锁定"
         return render_template(request, "auth/login.jinja",
-                               {"error": "邮箱或密码错误"}, status_code=400)
+                               {"error": f"邮箱或密码错误{hint}"}, status_code=400)
 
     if not user.is_active:
         return render_template(request, "auth/login.jinja",
                                {"error": "账号已停用"}, status_code=400)
+
+    await rate_limit_reset(request, redis)
 
     request.session[USER_ID_KEY] = user.id
     request.session["user_email"] = user.email
