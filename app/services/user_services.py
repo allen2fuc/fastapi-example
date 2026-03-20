@@ -17,5 +17,4 @@ async def create_default_user(session: AsyncSession):
         is_superuser=True,
         is_verified=True,
     )
-    session.add(user)
-    await session.commit()
+    await user_crud.create(user.model_dump())

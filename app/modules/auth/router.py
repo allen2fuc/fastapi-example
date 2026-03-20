@@ -2,7 +2,7 @@ import random
 import string
 
 from fastapi import APIRouter, Depends, Form, Request
-from fastapi.responses import HTMLResponse, RedirectResponse, Response
+from fastapi.responses import RedirectResponse, Response
 from pydantic import BaseModel
 from redis.asyncio import Redis
 
@@ -13,8 +13,11 @@ from app.core.redis import get_redis, rate_limit, rate_limit_incr, rate_limit_re
 from app.core.security import USER_ID_KEY, get_current_user, get_password_hash, verify_password
 from app.models.user import User
 from app.modules.user.crud import UserCrud
+import logging
 
 router = APIRouter()
+
+logger = logging.getLogger(__name__)
 
 _CAPTCHA_KEY = "captcha_code"
 
@@ -86,9 +89,11 @@ async def login(
     generated_at = request.session.pop(_CAPTCHA_KEY + "_at", 0)
     if not expected or captcha_input.upper() != expected:
         await rate_limit_incr(request, redis)
+        logger.error(f"验证码错误: {email} {expected} != {captcha_input} {request.client.host}")
         return render_template(request, "auth/login.jinja",
                                {"error": "验证码错误"}, status_code=400)
     if int(time.time()) - generated_at > 60:
+        logger.error(f"验证码已过期: {email} {generated_at} {request.client.host}")
         return render_template(request, "auth/login.jinja",
                                {"error": "验证码已过期，请刷新"}, status_code=400)
 
@@ -98,10 +103,12 @@ async def login(
         attempts = int(await redis.get(request.state.rate_limit_key) or 0)
         remaining = max(5 - attempts, 0)
         hint = f"，还剩 {remaining} 次机会" if remaining > 0 else "，账号已被临时锁定"
+        logger.error(f"邮箱或密码错误: {email} {request.client.host}")
         return render_template(request, "auth/login.jinja",
                                {"error": f"邮箱或密码错误{hint}"}, status_code=400)
 
     if not user.is_active:
+        logger.error(f"账号已停用: {email} {request.client.host}")
         return render_template(request, "auth/login.jinja",
                                {"error": "账号已停用"}, status_code=400)
 
@@ -112,6 +119,7 @@ async def login(
     request.session["is_superuser"] = user.is_superuser
     if not user.is_superuser:
         request.session["permissions"] = await user_crud.get_permissions(user.id)
+    logger.info(f"登录成功: {email} {request.client.host}")
     redirect = RedirectResponse(url="/dashboard", status_code=303)
     if remember_me:
         redirect.set_cookie(
@@ -128,6 +136,7 @@ async def login(
 
 @router.post("/logout")
 async def logout(request: Request):
+    logger.info(f"退出成功: {request.session.get("user_email")} {request.client.host}")
     request.session.clear()
     response = RedirectResponse(url="/auth/login", status_code=303)
     response.delete_cookie(_REMEMBER_COOKIE)
@@ -143,11 +152,13 @@ class ChangePasswordBody(BaseModel):
 
 @router.post("/change-password")
 async def change_password(
+    request: Request,
     body: ChangePasswordBody,
     current_user: User = Depends(get_current_user),
     user_crud: UserCrud = Depends(get_user_crud),
 ):
     if not verify_password(body.old_password, current_user.hashed_password):
+        logger.error(f"当前密码错误: {current_user.email} {request.client.host}")
         from fastapi import HTTPException
         raise HTTPException(status_code=400, detail="当前密码错误")
     await user_crud.update(current_user, {"hashed_password": get_password_hash(body.new_password)})
